@@ -1,0 +1,9 @@
+# https://direnv.net/man/direnv.toml.1.html
+
+[global]
+load_dotenv = true
+hide_env_diff = true
+strict_env = true
+
+[whitelist]
+prefix = ["~/Developer"]

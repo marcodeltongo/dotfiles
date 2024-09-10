@@ -87,11 +87,21 @@ alias top='btop'                # Resource monitor, alternative to top
 # -------
 alias l='eza -a --icons --group-directories-first -X --git --git-repos --time-style=relative -F --color-scale-mode=gradient --no-user'
 alias ll='l -l'
+alias tree='l -T -L 3'
 alias ...='../..'
 alias up='topgrade'             # Upgrade macOS and Homebrew
 alias o='open ${1:-.}'          # Open file or current directory in default app
 alias v='ox -r'                 # View file in ox (read-only)
 alias cl='clear'                # Clear terminal
+
+# Alias that runs `git status` if no additional arguments are provided
+git() {
+    if [ $# -eq 0 ]; then
+        command git status
+    else
+        command git "$@"
+    fi
+}
 
 # Aliases for common mistypes
 # ---------------------------
@@ -101,7 +111,7 @@ alias rust='cargo'
 
 # Dotfiles and configuration on Git
 # ---------------------------------
-alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 # Custom Functions
 # ----------------

@@ -1,14 +1,21 @@
-# Git Configuration
-
 [user]
-	# If you have only one account define them here, otherwise do it per repository with `git config --local`
+	# Set global user info only if you use one account across all repositories.
+	#
+	# If you have multiple accounts, set name/email per repository with:
+	# git config --local user.name "Your Name"
+	# git config --local user.email "you@example.com"
+	#
 	# name =
 	# email =
+
+[credential]
+    helper = cache
 
 [init]
 	defaultBranch = main
 
 [pull]
+    # Keep history linear by rebasing local commits on top of pulled changes
 	rebase = true
 
 [color]
@@ -20,42 +27,95 @@
 	aliases = !git config --get-regexp alias | sed -re 's/alias\\.(\\S*)\\s(.*)$/\\1 = \\2/g'
 
 	# Command shortcuts
-	st = status
+	#st = status # is not needed if you use the git alias function in .zshrc
 	ci = commit
+	cm = "!f() { git commit -m \"$1\"; }; f"
 	br = branch
 	co = checkout
 	ds = diff --staged
 
-	# Display tree-like log, because default log is a pain...
-	lg = log --graph --date=relative --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ad)%Creset'
+	# Stage all changes (new, modified, deleted)
+	stage = add .
+	all = add .
 
-	# Useful when you have to update your last commit
-	# with staged files without editing the commit message.
+	# Stage only modified and deleted files, not new ones
+	update = add -u
+	up = add -u
+
+	# Display tree-like log with decoration and abbreviated commits
+	lg = log --graph --decorate --pretty=oneline --abbrev-commit --all
+
+	# Useful for amending the last commit without editing the message
 	oops = commit --amend --no-edit
 
-	# List local commits that were not pushed to remote repository
-	review-local = "!git lg @{push}.."
+	# Review local commits not pushed to the remote
+	review = "!git lg @{push}.."
 
 	# Edit last commit message
 	reword = commit --amend
 
-	# Undo last commit but keep changed files in stage
+	# Undo last commit but keep changes staged
 	uncommit = reset --soft HEAD~1
 
-	# Remove file(s) from Git but not from disk
+	# Remove file(s) from Git but not disk
 	untrack = rm --cache --
 
 	# Unstage files (undo git add)
 	unstage = reset HEAD --
 
+	# Create a pull request via GitHub CLI
+	pr = !gh pr create --web
+
+	# Fork a repo via GitHub CLI
+    fork = !gh repo fork --remote
+
+	# Create an issue via GitHub CLI
+    issue = !gh issue create
+
+	# Open GitHub repo in browser
+    browse = !gh repo view --web
+
+	# Create a new GitHub repo using SSH and set the remote
+    newrepo = !gh repo create --public --source=. --remote=origin --ssh
+
+	# Trigger a GitHub workflow run via CLI
+    run-ci = !gh workflow run
+
+	# Undo last action via reflog
+    undo = reset --hard HEAD@{1}
+
+	# Undo last commit but keep changes
+    undo-commit = reset --soft HEAD~1
+
+	# Show collaborators of a GitHub repo
+    contributors = !gh repo view --json collaborators --jq '.collaborators[].login'
+
+	# Fetch a PR branch by PR number
+    fetch-pr = "!f() { git fetch origin pull/$1/head:pr-$1; }; f"
+
+	# Checkout a GitHub PR locally
+	pr-checkout = !gh pr checkout
+
+	# Set upstream remote to the current origin URL
+	set-upstream = "!git remote add upstream $(git config --get remote.origin.url)"
+
+	# Sync fork with upstream/main
+	sync-fork = "!git fetch upstream && git merge upstream/main"
+
+	# Run garbage collection to clean up unnecessary files
+	gc = !git gc --prune=now
+
+	# Edit Git aliases quickly
+	edit-aliases = !$EDITOR ~/.gitconfig
+
 [core]
-	# Use delta as the pager
+	# Use delta as the pager with a dark theme for improved diff viewing
 	pager = delta --dark
-	# Global ignore file (not shared)
+	# Specify global ignore file for personal ignore patterns
 	excludesfile = ~/.gitignore_global
-	# Use Zed as the default editor
+	# Set Zed as the default editor (adjust this if you switch editors)
 	editor = zed --wait
-	# Don't consider trailing space change as a cause for merge conflicts
+	# Ignore trailing whitespace in merge conflicts
 	whitespace = -trailing-space
 
 [interactive]
@@ -75,27 +135,27 @@
 	colorMoved = default
 
 [push]
-	# Default push should only push the current branch to its push target, regardless of its remote name
-	default = upstream
-	# When pushing, also push tags whose commit-ishs are now reachable upstream
+	# Push the current branch to a remote branch of the same name
+	default = current
+	# Automatically push tags associated with commits being pushed
 	followTags = true
+	# Automatically set up tracking for branches when pushing for the first time
+    autoSetupRemote = always
 
 [rebase]
-	# Rebase advanced usage.
-	# Automagically reorder and prefix your commands while doing an interactive
-	# rebase. This has to be used with `--fixup` and/or `--squash` options for
-	# `git commit`.
+	# Automatically fix up and squash commits during interactive rebase
 	autoSquash = true
-	# Automatically stash current WD and stage when running rebase
-	# then you won't have to manually `git stash push` and `git stash pop`
-	# after and before your rebase.
+	# Stash and restore working directory automatically during rebase
 	autoStash = true
 
 [help]
+    # Automatically correct mistyped commands after a short delay (3 seconds)
 	autocorrect = 30
 
 [rerere]
+    # Automatically remember conflict resolutions to reuse them in future merges
 	enabled = true
+	# Apply recorded conflict resolutions automatically
 	autoupdate = true
 
 [tag]
@@ -111,6 +171,8 @@
 	prereleaseSuffix = .rc
 
 [filter "lfs"]
+    # On GitHub remember to add a .gitattributes file with:
+	# *.largefiletype filter=lfs diff=lfs merge=lfs -text
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process

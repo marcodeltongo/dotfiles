@@ -9,9 +9,11 @@
 	# email =
 
 [credential]
+    # Cache credentials to avoid re-entering them frequently.
     helper = cache
 
 [init]
+    # Ensure new repositories use 'main' as the default branch.
 	defaultBranch = main
 
 [pull]
@@ -39,7 +41,7 @@
 	all = add .
 
 	# Stage only modified and deleted files, not new ones
-	update = add -u
+	updated = add -u
 	up = add -u
 
 	# Display tree-like log with decoration and abbreviated commits
@@ -62,6 +64,9 @@
 
 	# Unstage files (undo git add)
 	unstage = reset HEAD --
+
+	# ----------------------------------------
+	# GitHub CLI integration
 
 	# Create a pull request via GitHub CLI
 	pr = !gh pr create --web
@@ -105,6 +110,41 @@
 	# Run garbage collection to clean up unnecessary files
 	gc = !git gc --prune=now
 
+	# ----------------------------------------
+	# Trunk-Based Development (TBD)
+
+	# Create a new feature branch
+    new-feature = "!git checkout -b feature/$1"
+
+    # Create a new bugfix branch
+    new-bugfix = "!git checkout -b bugfix/$1"
+
+    # Create a new hotfix branch
+    new-hotfix = "!git checkout -b hotfix/$1"
+
+    # Merge the current branch into main and delete it locally
+    finish-branch = "!f() { branch=$(git symbolic-ref --short HEAD); git checkout main && git pull origin main && git merge $branch && git push origin main && git branch -d $branch; }; f"
+
+    # Sync main with the latest remote changes
+    sync-main = "!git checkout main && git pull origin main"
+
+    # Prune merged branches
+    prune-branches = "!git fetch -p && git branch --merged | grep -v '\\*\\|main\\|master' | xargs -n 1 git branch -d"
+
+    # Commit all changes as a Work In Progress (WIP)
+    wip = "!git add -A && git commit -m 'WIP' --no-verify"
+
+    # Undo the last WIP commit, keeping the changes staged
+    undo-wip = "!git reset --soft HEAD~1"
+
+    # Rebase your feature branch with the latest main changes
+    update-feature = "!git fetch origin && git rebase origin/main"
+
+    # Push the current branch to the remote
+    push-branch = "!git push -u origin $(git symbolic-ref --short HEAD)"
+
+	# ----------------------------------------
+
 	# Edit Git aliases quickly
 	edit-aliases = !$EDITOR ~/.gitconfig
 
@@ -124,9 +164,22 @@
 [delta]
     side-by-side = true
     line-numbers = true
+    navigate = true
+    syntax-theme = none
+    plus-style = "bold #bae67e"           # Green text for additions
+    plus-emph-style = "bold #bae67e"      # Emphasized green text for additions
+    minus-style = "bold #f07178"          # Red text for deletions
+    minus-emph-style = "bold #f07178"     # Emphasized red text for deletions
+    plus-background = "#1f2430"           # Dark background for additions (Ayu Mirage background)
+    minus-background = "#1f2430"          # Dark background for deletions (Ayu Mirage background)
+    line-numbers-style = "#5c6773"        # Default comment color for unchanged line numbers
+    line-numbers-plus-style = "#bae67e"   # Green line numbers for additions
+    line-numbers-minus-style = "#f07178"  # Red line numbers for deletions
+    syntax-decoration-style = "#cbccc6"   # Foreground text color (Ayu Mirage light gray)
+    neutral-style = "syntax #5c6773"      # Gray for unchanged lines (Ayu Mirage comment color)
+    file-style = "#ffd580"                # Yellow for file names (matches function color in Ayu Mirage)
+    hunk-header-style = "syntax #ffcc66"  # Yellow for diff hunk headers (matches constants in Ayu Mirage)
     hyperlinks = true
-	navigate = true
-    features = 1337
 
 [merge]
 	conflictstyle = diff3

@@ -10,7 +10,7 @@
 # sudo_command = "sudo"
 
 # Disable specific steps - same options as the command line flag
-disable = ["pip3"]
+disable = ["pip3", "mas"]
 # ---
 # `a_m`, `app_man`, `asdf`, `atom`, `audit`, `auto_cpufreq`, `bin`, `bob`, `brew_cask`, `brew_formula`,
 # `bun`, `bun_packages`, `cargo`, `certbot`, `chezmoi`, `chocolatey`, `choosenim`, `clam_av_db`, `composer`,

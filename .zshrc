@@ -35,7 +35,6 @@ export CACHE="$HOME/.cache"
 
 # ZSH Features
 # ------------
-autoload -Uz compinit && compinit
 setopt autocd            # Change to a directory just by typing its name
 setopt correct           # Try to correct the spelling of commands
 setopt correctall        # Try to correct the spelling of all arguments in a line
@@ -55,6 +54,19 @@ setopt appendhistory     # Append history to the history file (no overwriting)
 setopt histignorealldups # Ignore duplicates when adding lines to the history list
 setopt incappendhistory  # Append to history file immediately, not when shell exits
 setopt sharehistory      # Share history between all sessions
+
+# Homebrew
+# --------
+export HOMEBREW_BAT=1
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_ENV_HINTS=1
+export HOMEBREW_AUTO_UPDATE_SECS=86400
+eval "$(/opt/homebrew/bin/brew shellenv)"
+FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
+# Completions
+# -----------
+autoload -Uz compinit && compinit
 
 # Plugins
 # -------
@@ -82,16 +94,15 @@ alias ping='gping'              # Ping with a graph
 alias ps='procs'                # Modern replacement for ps
 alias sed='sd'                  # Intuitive find & replace CLI
 alias top='btop'                # Resource monitor, alternative to top
+alias vi='nvim'                 # Neovim
 
 # Aliases & shortcuts
 # -------
-alias l='eza -a --icons --group-directories-first -X --git --git-repos --time-style=relative -F --color-scale-mode=gradient --no-user'
-alias ll='l -l'
-alias tree='l -T -L 3'
+alias l='eza -a --icons --group-directories-first --git --git-repos'
+alias ll='l -l --no-user --time-style=relative -X'
 alias ...='../..'
+alias tree='l -T -L 3'
 alias up='topgrade'             # Upgrade macOS and Homebrew
-alias o='open ${1:-.}'          # Open file or current directory in default app
-alias v='ox -r'                 # View file in ox (read-only)
 alias cl='clear'                # Clear terminal
 
 # Alias that runs `git status` if no additional arguments are provided
@@ -159,9 +170,6 @@ dev() {
         aur)
             cd ~/Developer/audiencerate
             ;;
-        martech)
-                cd ~/Developer/audiencerate/martech
-                ;;
         *)
             cd ~/Developer/$1
             ;;
@@ -176,6 +184,7 @@ zrc() {
         ~/.config/wezterm/wezterm.lua
         ~/.config/starship.toml
         ~/.config/direnv/direnv.toml
+        ~/.config/topgrade.toml
         ~/.zshenv
         ~/.zprofile
         ~/.profile
@@ -200,14 +209,6 @@ zrc() {
 export DO_NOT_TRACK=1
 export AZURE_CORE_COLLECT_TELEMETRY=0
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
-
-# Homebrew
-export HOMEBREW_BAT=1
-export HOMEBREW_NO_ANALYTICS=1
-export HOMEBREW_NO_ENV_HINTS=1
-export HOMEBREW_AUTO_UPDATE_SECS=86400
-eval "$(/opt/homebrew/bin/brew shellenv)"
-FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 
 # Development
 export DEV=$HOME/Developer
@@ -250,3 +251,6 @@ source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 if [[ -n $ZPROF ]]; then
     zprof
 fi
+
+# bun completions
+[ -s "/Users/marcodeltongo/.bun/_bun" ] && source "/Users/marcodeltongo/.bun/_bun"

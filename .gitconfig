@@ -37,8 +37,9 @@
 	ds = diff --staged
 
 	# Stage all changes (new, modified, deleted)
-	stage = add .
 	all = add .
+	stage = add .
+	stage-what = add . --dry-run
 
 	# Stage only modified and deleted files, not new ones
 	updated = add -u
@@ -193,7 +194,7 @@
 	# Automatically push tags associated with commits being pushed
 	followTags = true
 	# Automatically set up tracking for branches when pushing for the first time
-    autoSetupRemote = always
+    autoSetupRemote = true
 
 [rebase]
 	# Automatically fix up and squash commits during interactive rebase

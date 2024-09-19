@@ -5,22 +5,21 @@ local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 
 -- Theme & colors
-config.color_scheme = 'Ayu Mirage'
+config.color_scheme = 'rose-pine'
 config.default_cursor_style = 'BlinkingBar'
 
 -- Font and related settings
 config.font = wezterm.font_with_fallback {
     {
-        family = "Iosevka Term", -- "Iosevka Term SS17" "VictorMono Nerd Font Mono"
-        weight = "Light",
+        family = "M PLUS Code Latin",
+        weight = "Regular",
         stretch = "Normal",
         style = "Normal"
     },
-    'IosevkaTerm Nerd Font Mono',
+    "IosevkaTerm Nerd Font Propo"
 }
-config.font_size = 16
+config.font_size = 14
 config.line_height = 1.2
-
 -- Window & tabs style
 config.window_decorations = "RESIZE"
 config.window_background_opacity = 0.96
@@ -63,14 +62,14 @@ bar.apply_to_config(config, {
     }
 })
 config.colors.tab_bar = {
-    background = "#1f2430",
+    background = "#393552",
     active_tab = {
-        bg_color = "#1f2430",
-        fg_color = "#ffcc66",
+        bg_color = "#393552",
+        fg_color = "#f6c177",
     },
     inactive_tab = {
-        bg_color = "#1f2430",
-        fg_color = "#707A8C",
+        bg_color = "#393552",
+        fg_color = "#6e6a86",
     },
 }
 

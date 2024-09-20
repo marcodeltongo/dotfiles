@@ -36,6 +36,9 @@
 	co = checkout
 	ds = diff --staged
 
+	# Stage modified and deleted files, commit all changes with a message, and push to the remote
+	done = "!f() { git add -u && git commit -m \"$1\" && git push; }; f"
+
 	# Stage all changes (new, modified, deleted)
 	all = add .
 	stage = add .

@@ -67,6 +67,9 @@ FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 # Completions
 # -----------
 autoload -Uz compinit && compinit
+source <(fzf --zsh)
+source <(delta --generate-completion zsh)
+source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 
 # Plugins
 # -------
@@ -126,84 +129,14 @@ alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 # Custom Functions
 # ----------------
-if [ -d "$HOME/.zsh/functions" ]; then
-    for func in "$HOME"/.zsh/functions/*; do
+if [ -d "$HOME/.config/zsh/functions/" ]; then
+    for func in "$HOME"/.config/zsh/functions/*; do
         source "$func"
     done
 fi
 
-export TZ_LIST="Europe/London,Audiencerate Ltd"
-# Function to see the datetime in different timezones
-# Usage: when [date] time [timezone]
-function when() {
-    if [[ -z "$1" ]]; then
-        tz -m -q
-    elif [[ -n "$1" && -z "$2" ]]; then
-        tz -m -q -when $(date -j -f "%H:%M:%S" "$1:00" +"%s")
-    elif [[ -n "$2" && -z "$3" ]]; then
-        tz -m -q -when $(date -j -f "%Y%m%d %H:%M:%S" "$1 $2:00" +"%s")
-    else
-        # Handle WEST timezone by converting it to WET
-        if [[ "$3" == "WEST" ]]; then
-            timezone="WET"
-        else
-            timezone="$3"
-        fi
-        tz -m -q -when $(date -j -f "%Y%m%d %H:%M:%S %Z" "$1 $2:00 $timezone" +"%s")
-    fi
-}
-
-# Function to make a directory with intermediates and cd into it
-function mkcd() {
-  if [[ ! -n "$1" ]]; then
-    echo "Enter a directory name"
-  elif [[ -d $1 ]]; then
-    echo "\`$1' already exists"
-  else
-    mkdir -p $1 && cd $1
-  fi
-}
-
-# Function to change to a directory in the Developer folder with shortcuts
-dev() {
-    case "$1" in
-        aur)
-            cd ~/Developer/audiencerate
-            ;;
-        *)
-            cd ~/Developer/$1
-            ;;
-    esac
-}
-
 # Environment
 # -----------
-zrc() {
-    local files=(
-        ~/.zshrc
-        ~/.config/wezterm/wezterm.lua
-        ~/.config/starship.toml
-        ~/.config/direnv/direnv.toml
-        ~/.config/topgrade.toml
-        ~/.zshenv
-        ~/.zprofile
-        ~/.profile
-    )
-    local existing_files=()
-
-    for file in "${files[@]}"; do
-        if [[ -f "$file" ]]; then
-            existing_files+=("$file")
-        fi
-    done
-
-    if [[ ${#existing_files[@]} -gt 0 ]]; then
-        $EDIT "${existing_files[@]}"
-    else
-        echo "No existing files found to edit?"
-        $EDIT ~/.zshrc
-    fi
-}
 
 # https://consoledonottrack.com/
 export DO_NOT_TRACK=1
@@ -240,17 +173,14 @@ alias bunfig="$EDIT ~/.config/.bunfig.toml"
 
 # External tools for interactive shells
 # --------------------------
-source <(fzf --zsh)
-eval "$(atuin init zsh)"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
-source <(delta --generate-completion zsh)
-source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+eval "$(atuin init zsh)"
+
+# bun completions
+[ -s "/Users/marcodeltongo/.bun/_bun" ] && source "/Users/marcodeltongo/.bun/_bun"
 
 # Conditional profiling (set in )
 if [[ -n $ZPROF ]]; then
     zprof
 fi
-
-# bun completions
-[ -s "/Users/marcodeltongo/.bun/_bun" ] && source "/Users/marcodeltongo/.bun/_bun"

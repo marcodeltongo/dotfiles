@@ -5,8 +5,8 @@ dev() {
     local target_dir
 
     case "$1" in
-        aur)
-            target_dir="$base_dir/audiencerate"
+        mdt)
+            target_dir="$base_dir/personal"
             ;;
         "")
             target_dir="$base_dir"

@@ -4,7 +4,7 @@ zrc() {
     # Array of configuration files to potentially edit
     local files=(
         ~/.zshrc
-        ~/.config/wezterm/wezterm.lua
+        ~/.config/ghostty/config
         ~/.config/starship.toml
         ~/.config/direnv/direnv.toml
         ~/.config/topgrade.toml
@@ -12,6 +12,7 @@ zrc() {
         ~/.zprofile
         ~/.profile
         ~/.gitconfig
+        ~/.config/zsh/functions/*
     )
 
     # Initialize array for existing files
@@ -23,9 +24,6 @@ zrc() {
             existing_files+=("$file")
         fi
     done
-
-    # Add custom functions from zsh functions directory
-    existing_files+=("$(fd -t f . ~/.config/zsh/functions)")
 
     # Edit existing files or create ~/.zshrc if none exist
     if [[ ${#existing_files[@]} -gt 0 ]]; then

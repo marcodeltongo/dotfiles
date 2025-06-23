@@ -105,6 +105,7 @@ alias l='eza -a --icons --group-directories-first --git --git-repos'
 alias ll='l -l --no-user --time-style=relative -X'
 alias ...='../..'
 alias tree='l -T -L 3'
+alias dree='tree --git-ignore'
 alias up='topgrade'             # Upgrade macOS and Homebrew
 alias cl='clear'                # Clear terminal
 
@@ -142,6 +143,7 @@ fi
 export DO_NOT_TRACK=1
 export AZURE_CORE_COLLECT_TELEMETRY=0
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export STORYBOOK_DISABLE_TELEMETRY=1
 
 # Development
 export DEV=$HOME/Developer
@@ -153,16 +155,11 @@ export RUSTUP_HOME=$CACHE/rustup
 export PATH="$CARGO_HOME/bin:$PATH"
 . "$CACHE/cargo/env"
 
-# Golang
-export GOPATH=$CACHE/go
-export GOROOT=/usr/local/go
-export PATH="$GOROOT/bin:$GOPATH/bin:$PATH"
-
 # Python via UV
 # https://docs.astral.sh/uv/
 eval "$(uv generate-shell-completion zsh)"
 
-# Node via HomeBrew
+# Node
 export NODE_ENV=development
 
 # Bun
@@ -170,17 +167,35 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 alias bunfig="$EDIT ~/.config/.bunfig.toml"
 [ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
+# completions
+[ -s "/Users/marcodeltongo/.bun/_bun" ] && source "/Users/marcodeltongo/.bun/_bun"
+
+# pnpm
+export PNPM_HOME="/Users/marcodeltongo/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# https://github.com/antfu-collective/ni
+export NI_DEFAULT_AGENT="pnpm" # default "prompt"
+export NI_GLOBAL_AGENT="pnpm"
+
+# VSCode `code` command
+alias code="\"/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code\""
 
 # External tools for interactive shells
 # --------------------------
 eval "$(starship init zsh)"
+eval "$(mise activate zsh)"
 eval "$(zoxide init zsh)"
 eval "$(atuin init zsh)"
-
-# bun completions
-[ -s "/Users/marcodeltongo/.bun/_bun" ] && source "/Users/marcodeltongo/.bun/_bun"
 
 # Conditional profiling (set in )
 if [[ -n $ZPROF ]]; then
     zprof
 fi
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/marcodeltongo/.cache/lm-studio/bin"

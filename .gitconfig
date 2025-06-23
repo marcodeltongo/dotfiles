@@ -29,7 +29,7 @@
 	aliases = !git config --get-regexp alias | sed -re 's/alias\\.(\\S*)\\s(.*)$/\\1 = \\2/g'
 
 	# Command shortcuts
-	#st = status # is not needed if you use the git alias function in .zshrc
+	st = status # is not needed if you use the git alias function in .zshrc
 	ci = commit
 	cm = "!f() { git commit -m \"$1\"; }; f"
 	br = branch
@@ -46,7 +46,6 @@
 
 	# Stage only modified and deleted files, not new ones
 	updated = add -u
-	up = add -u
 
 	# Display tree-like log with decoration and abbreviated commits
 	lg = log --graph --decorate --pretty=oneline --abbrev-commit --all

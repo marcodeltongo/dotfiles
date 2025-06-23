@@ -1,0 +1,20 @@
+# ghostty +list-fonts
+# font-family = "Victor Mono"
+# font-family-italic =
+# font-family-bold-italic =
+
+window-title-font-family = "Inter Display"
+
+macos-titlebar-style = tabs
+macos-titlebar-proxy-icon = hidden
+macos-option-as-alt = true
+window-save-state = always
+window-width = 150
+window-height = 52
+
+# ghostty +list-themes
+# theme = "Kanagawa Wave"
+
+# quick terminal
+keybind = global:cmd+`=toggle_quick_terminal
+# quick-terminal-position = middle

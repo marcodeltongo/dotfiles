@@ -1,3 +1,5 @@
+# This is Git's per-user configuration file.
+
 [user]
 	# Set global user info only if you use one account across all repositories.
 	#
@@ -5,19 +7,19 @@
 	# git config --local user.name "Your Name"
 	# git config --local user.email "you@example.com"
 	#
-	# name =
-	# email =
+	name = Marco Del Tongo
+	email = info@marcodeltongo.com
 
 [credential]
-    # Cache credentials to avoid re-entering them frequently.
-    helper = cache
+	# Cache credentials to avoid re-entering them frequently.
+	helper = cache
 
 [init]
-    # Ensure new repositories use 'main' as the default branch.
+	# Ensure new repositories use 'main' as the default branch.
 	defaultBranch = main
 
 [pull]
-    # Keep history linear by rebasing local commits on top of pulled changes
+	# Keep history linear by rebasing local commits on top of pulled changes
 	rebase = true
 
 [color]
@@ -40,12 +42,12 @@
 	done = "!f() { git add -u && git commit -m \"$1\" && git push; }; f"
 
 	# Stage all changes (new, modified, deleted)
-	all = add .
-	stage = add .
-	stage-what = add . --dry-run
+	add-all = add .
+	stage-all = add .
 
 	# Stage only modified and deleted files, not new ones
-	updated = add -u
+	add-updated = add -u
+	stage-updated = add -u
 
 	# Display tree-like log with decoration and abbreviated commits
 	lg = log --graph --decorate --pretty=oneline --abbrev-commit --all
@@ -68,6 +70,9 @@
 	# Unstage files (undo git add)
 	unstage = reset HEAD --
 
+	# Run garbage collection to clean up unnecessary files
+	gc = !git gc --prune=now
+
 	# ----------------------------------------
 	# GitHub CLI integration
 
@@ -75,31 +80,31 @@
 	pr = !gh pr create --web
 
 	# Fork a repo via GitHub CLI
-    fork = !gh repo fork --remote
+	fork = !gh repo fork --remote
 
 	# Create an issue via GitHub CLI
-    issue = !gh issue create
+	issue = !gh issue create
 
 	# Open GitHub repo in browser
-    browse = !gh repo view --web
+	browse = !gh repo view --web
 
 	# Create a new GitHub repo using SSH and set the remote
-    newrepo = !gh repo create --public --source=. --remote=origin --ssh
+	newrepo = !gh repo create --public --source=. --remote=origin --ssh
 
 	# Trigger a GitHub workflow run via CLI
-    run-ci = !gh workflow run
+	run-ci = !gh workflow run
 
 	# Undo last action via reflog
-    undo = reset --hard HEAD@{1}
+	undo = reset --hard HEAD@{1}
 
 	# Undo last commit but keep changes
-    undo-commit = reset --soft HEAD~1
+	undo-commit = reset --soft HEAD~1
 
 	# Show collaborators of a GitHub repo
-    contributors = !gh repo view --json collaborators --jq '.collaborators[].login'
+	contributors = !gh repo view --json collaborators --jq '.collaborators[].login'
 
 	# Fetch a PR branch by PR number
-    fetch-pr = "!f() { git fetch origin pull/$1/head:pr-$1; }; f"
+	fetch-pr = "!f() { git fetch origin pull/$1/head:pr-$1; }; f"
 
 	# Checkout a GitHub PR locally
 	pr-checkout = !gh pr checkout
@@ -110,41 +115,38 @@
 	# Sync fork with upstream/main
 	sync-fork = "!git fetch upstream && git merge upstream/main"
 
-	# Run garbage collection to clean up unnecessary files
-	gc = !git gc --prune=now
-
 	# ----------------------------------------
 	# Trunk-Based Development (TBD)
 
 	# Create a new feature branch
-    new-feature = "!git checkout -b feature/$1"
+	new-feature = "!git checkout -b feature/$1"
 
-    # Create a new bugfix branch
-    new-bugfix = "!git checkout -b bugfix/$1"
+	# Create a new bugfix branch
+	new-bugfix = "!git checkout -b bugfix/$1"
 
-    # Create a new hotfix branch
-    new-hotfix = "!git checkout -b hotfix/$1"
+	# Create a new hotfix branch
+	new-hotfix = "!git checkout -b hotfix/$1"
 
-    # Merge the current branch into main and delete it locally
-    finish-branch = "!f() { branch=$(git symbolic-ref --short HEAD); git checkout main && git pull origin main && git merge $branch && git push origin main && git branch -d $branch; }; f"
+	# Merge the current branch into main and delete it locally
+	finish-branch = "!f() { branch=$(git symbolic-ref --short HEAD); git checkout main && git pull origin main && git merge $branch && git push origin main && git branch -d $branch; }; f"
 
-    # Sync main with the latest remote changes
-    sync-main = "!git checkout main && git pull origin main"
+	# Sync main with the latest remote changes
+	sync-main = "!git checkout main && git pull origin main"
 
-    # Prune merged branches
-    prune-branches = "!git fetch -p && git branch --merged | grep -v '\\*\\|main\\|master' | xargs -n 1 git branch -d"
+	# Prune merged branches
+	prune-branches = "!git fetch -p && git branch --merged | grep -v '\\*\\|main\\|master' | xargs -n 1 git branch -d"
 
-    # Commit all changes as a Work In Progress (WIP)
-    wip = "!git add -A && git commit -m 'WIP' --no-verify"
+	# Commit all changes as a Work In Progress (WIP)
+	wip = "!git add -A && git commit -m 'WIP' --no-verify"
 
-    # Undo the last WIP commit, keeping the changes staged
-    undo-wip = "!git reset --soft HEAD~1"
+	# Undo the last WIP commit, keeping the changes staged
+	undo-wip = "!git reset --soft HEAD~1"
 
-    # Rebase your feature branch with the latest main changes
-    update-feature = "!git fetch origin && git rebase origin/main"
+	# Rebase your feature branch with the latest main changes
+	update-feature = "!git fetch origin && git rebase origin/main"
 
-    # Push the current branch to the remote
-    push-branch = "!git push -u origin $(git symbolic-ref --short HEAD)"
+	# Push the current branch to the remote
+	push-branch = "!git push -u origin $(git symbolic-ref --short HEAD)"
 
 	# ----------------------------------------
 
@@ -152,11 +154,11 @@
 	edit-aliases = !$EDITOR ~/.gitconfig
 
 [core]
-	# Use delta as the pager with a dark theme for improved diff viewing
-	pager = delta --dark
+	# Use delta as the pager
+	pager = delta
 	# Specify global ignore file for personal ignore patterns
 	excludesfile = ~/.gitignore_global
-	# Set Zed as the default editor (adjust this if you switch editors)
+	# Set default editor
 	editor = zed --wait
 	# Ignore trailing whitespace in merge conflicts
 	whitespace = -trailing-space
@@ -165,30 +167,17 @@
 	diffFilter = delta --color-only
 
 [delta]
-    side-by-side = true
-    line-numbers = true
-    navigate = true
-    syntax-theme = none
-    plus-style = "bold #bae67e"           # Green text for additions
-    plus-emph-style = "bold #bae67e"      # Emphasized green text for additions
-    minus-style = "bold #f07178"          # Red text for deletions
-    minus-emph-style = "bold #f07178"     # Emphasized red text for deletions
-    plus-background = "#1f2430"           # Dark background for additions (Ayu Mirage background)
-    minus-background = "#1f2430"          # Dark background for deletions (Ayu Mirage background)
-    line-numbers-style = "#5c6773"        # Default comment color for unchanged line numbers
-    line-numbers-plus-style = "#bae67e"   # Green line numbers for additions
-    line-numbers-minus-style = "#f07178"  # Red line numbers for deletions
-    syntax-decoration-style = "#cbccc6"   # Foreground text color (Ayu Mirage light gray)
-    neutral-style = "syntax #5c6773"      # Gray for unchanged lines (Ayu Mirage comment color)
-    file-style = "#ffd580"                # Yellow for file names (matches function color in Ayu Mirage)
-    hunk-header-style = "syntax #ffcc66"  # Yellow for diff hunk headers (matches constants in Ayu Mirage)
-    hyperlinks = true
+	side-by-side = true
+	line-numbers = true
+	navigate = true
+	syntax-theme = gruvbox-dark
+	hyperlinks = true
 
 [merge]
-	conflictstyle = diff3
+	conflictstyle = zdiff3
 
 [diff]
-	colorMoved = default
+	# colorMoved = default
 
 [push]
 	# Push the current branch to a remote branch of the same name
@@ -196,7 +185,7 @@
 	# Automatically push tags associated with commits being pushed
 	followTags = true
 	# Automatically set up tracking for branches when pushing for the first time
-    autoSetupRemote = true
+	autoSetupRemote = true
 
 [rebase]
 	# Automatically fix up and squash commits during interactive rebase
@@ -205,11 +194,11 @@
 	autoStash = true
 
 [help]
-    # Automatically correct mistyped commands after a short delay (3 seconds)
+	# Automatically correct mistyped commands after a short delay (3 seconds)
 	autocorrect = 30
 
 [rerere]
-    # Automatically remember conflict resolutions to reuse them in future merges
+	# Automatically remember conflict resolutions to reuse them in future merges
 	enabled = true
 	# Apply recorded conflict resolutions automatically
 	autoupdate = true
@@ -227,7 +216,7 @@
 	prereleaseSuffix = .rc
 
 [filter "lfs"]
-    # On GitHub remember to add a .gitattributes file with:
+	# On GitHub remember to add a .gitattributes file with:
 	# *.largefiletype filter=lfs diff=lfs merge=lfs -text
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f

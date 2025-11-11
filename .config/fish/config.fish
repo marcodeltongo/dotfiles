@@ -94,6 +94,8 @@ if status is-interactive
     # fzf
     fzf --fish | source
 
-    # System info
-    macchina -s -m -p -D '/'
+    # Show system info only in Ghostty and not in VSCode terminal
+    if test "$TERM_PROGRAM" = "ghostty"
+        macchina -s -m -p -D '/'
+    end
 end

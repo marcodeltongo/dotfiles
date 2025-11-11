@@ -1,20 +1,23 @@
-# ghostty +list-fonts
-# font-family = "Victor Mono"
-# font-family-italic =
-# font-family-bold-italic =
+# https://ghostty.org/docs/config/reference
 
-window-title-font-family = "Inter Display"
+command = /opt/homebrew/bin/fish
+shell-integration = fish
+# initial-command =
 
+# Window layout 
+window-save-state = always
 macos-titlebar-style = tabs
 macos-titlebar-proxy-icon = hidden
 macos-option-as-alt = true
-window-save-state = always
-window-width = 150
-window-height = 52
+background-opacity = 0.9
+background-blur = true
 
-# ghostty +list-themes
-# theme = "Kanagawa Wave"
-
-# quick terminal
+# Quick terminal
 keybind = global:cmd+`=toggle_quick_terminal
-# quick-terminal-position = middle
+quick-terminal-animation-duration = 0.1
+quick-terminal-position = center
+quick-terminal-size = 60%,100%
+
+# Appearance
+# ghostty +list-themes
+theme = Gruvbox Material Dark

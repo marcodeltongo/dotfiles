@@ -90,7 +90,7 @@ Use the following commands to interact with your dotfiles repository:
 2. **Clone the dotfiles**:
 
   ```bash
-  git clone --separate-git-dir=$HOME/.dotfiles https://github.com/<username>/dotfiles.git dotfiles-tmp
+  git clone --separate-git-dir=$HOME/.dotfiles git@github.com:<username>/dotfiles.git dotfiles-tmp
   rsync --recursive --verbose --exclude '.git' dotfiles-tmp/ $HOME/
   rm --recursive dotfiles-tmp
   ```
@@ -105,21 +105,15 @@ Use the following commands to interact with your dotfiles repository:
 
 ## Included Configurations
 
-This repository currently tracks the following configuration files (from the bare `.dotfiles` repo):
+This repository includes configuration files for:
 
-- Git (`.gitconfig`)
-- Starship prompt (`.config/starship.toml`)
-- Homebrew packages export (`.config/brew_packages.txt`)
-- Direnv (`.config/direnv/direnv.toml`)
-- Atuin shell history (`.config/atuin/config.toml`)
-- Ghostty (`.config/ghostty/config`)
-- Bun configuration (`.config/.bunfig.toml`)
-- Topgrade (`.config/topgrade.toml`)
-- Zsh files (legacy): `.zshrc` and helper scripts in `.config/zsh/functions/`
+- [Git](https://git-scm.com/)
+- [Fish shell](https://fishshell.com/)
+- [Starship prompt](https://starship.rs/)
+- [Homebrew package manager](https://brew.sh/)
+- [Topgrade](https://github.com/r-darwish/topgrade)
 
-Note: your system is now using Fish as the primary shell. If you'd like Fish config tracked, add `config/fish/config.fish` (or I can help migrate settings from the Zsh files). If you prefer a Fish-only repo I can remove the legacy Zsh files from the repository.
-
-Remember to update personal settings (Git username/email, SSH keys, etc.) after cloning.
+**Remember** to customize configurations like Git username and email after cloning.
 
 ## Exporting Homebrew Packages
 

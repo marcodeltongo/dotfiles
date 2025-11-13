@@ -1,29 +1,41 @@
+# ---
+# Global settings
+# ---
+
+# Environment settings
+set -gx CACHE $HOME/.cache
+set -gx EDITOR hx
+set -gx VISUAL zed --wait
+
+# Disable telemetry. See https://consoledonottrack.com
+set -gx DO_NOT_TRACK 1
+set -gx DOTNET_CLI_TELEMETRY_OPTOUT 1
+set -gx STORYBOOK_DISABLE_TELEMETRY 1
+set -gx AZURE_CORE_COLLECT_TELEMETRY 0
+
+# Homebrew environment variables
+set -gx HOMEBREW_BAT 1
+set -gx HOMEBREW_NO_ANALYTICS 1
+set -gx HOMEBREW_NO_ENV_HINTS 1
+set -gx HOMEBREW_AUTO_UPDATE_SECS 86400
+fish_add_path /opt/homebrew/bin
+
+# pnpm
+set -gx PNPM_HOME /Users/marco/Library/pnpm
+if not string match -q -- $PNPM_HOME $PATH
+    set -gx PATH "$PNPM_HOME" $PATH
+end
+
+# LMStudio CLI (lms)
+set -gx PATH $PATH /Users/marco/.lmstudio/bin
+
+# ---
+# Interactive settings
+# ---
+
 if status is-interactive
     # Commands to run in interactive sessions can go here
     set -g fish_greeting
-
-    # ---
-    # Environment settings
-    # ---
-
-    set -gx CACHE $HOME/.cache
-    set -gx EDITOR code
-
-    # Disable telemetry. See https://consoledonottrack.com
-    set -gx DO_NOT_TRACK 1
-    set -gx DOTNET_CLI_TELEMETRY_OPTOUT 1
-    set -gx STORYBOOK_DISABLE_TELEMETRY 1
-    set -gx AZURE_CORE_COLLECT_TELEMETRY 0
-
-    # Homebrew environment variables
-    set -gx HOMEBREW_BAT 1
-    set -gx HOMEBREW_NO_ANALYTICS 1
-    set -gx HOMEBREW_NO_ENV_HINTS 1
-    set -gx HOMEBREW_AUTO_UPDATE_SECS 86400
-
-    # ---
-    # Aliases and abbreviations
-    # ---
 
     # Abbreviations for aliases
     abbr --add brwe brew
@@ -63,7 +75,7 @@ if status is-interactive
     # conf: edit configuration files
     function conf
         $EDITOR ~/.config \
-                ~/.gitconfig
+            ~/.gitconfig
     end
 
     # src: reload fish configuration
@@ -78,24 +90,25 @@ if status is-interactive
     end
 
     # ---
-    # 3rd party tools
+    # Interactive tools
     # ---
 
-    # Prompt
-    function starship_transient_prompt_func
-        starship module character
-    end
-    starship init fish | source
-    enable_transience
-
-    # zoxide
+    fzf --fish | source
+    atuin init fish | source
     zoxide init fish | source
 
-    # fzf
-    fzf --fish | source
-
     # Show system info only in Ghostty and not in VSCode terminal
-    if test "$TERM_PROGRAM" = "ghostty"
-        macchina -s -m -p -D '/'
+    if test "$TERM_PROGRAM" = ghostty
+        # Prompt
+        function starship_transient_prompt_func
+            starship module character
+        end
+        starship init fish | source
+        enable_transience
+        # System info
+        macchina -s -m -p -D /
     end
+
+    # opencode
+    fish_add_path /Users/marco/.opencode/bin
 end

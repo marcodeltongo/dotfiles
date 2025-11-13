@@ -4,7 +4,6 @@
 [include]
 # paths = ["/etc/topgrade.toml"]
 
-
 [misc]
 # On Unix systems, Topgrade should not be run as root, it
 # will run commands with sudo or equivalent where needed.
@@ -22,7 +21,7 @@
 # sudo_command = "sudo"
 
 # Disable specific steps - same options as the command line flag
-disable = ["system", "containers", "pip3"]
+disable = ["system", "containers", "yarn", "pip3"]
 
 # Ignore failures for these steps
 # ignore_failures = ["powershell"]
@@ -91,22 +90,18 @@ no_self_update = true
 # See: https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/struct.EnvFilter.html#directives
 # log_filters = ["topgrade::command=debug", "warn"]
 
-
 # Commands to run before anything
 [pre_commands]
 # "Emacs Snapshot" = "rm -rf ~/.emacs.d/elpa.bak && cp -rl ~/.emacs.d/elpa ~/.emacs.d/elpa.bak"
-
 
 # Commands to run after anything
 [post_commands]
 # "Emacs Snapshot" = "rm -rf ~/.emacs.d/elpa.bak && cp -rl ~/.emacs.d/elpa ~/.emacs.d/elpa.bak"
 
-
 # Custom commands
 [commands]
 # "Python Environment" = "~/dev/.env/bin/pip install -i https://pypi.python.org/simple -U --upgrade-strategy eager jupyter"
 # "Custom command using interactive shell (unix)" = "-i vim_upgrade"
-
 
 [python]
 # enable_pip_review = true                         ###disabled by default
@@ -121,7 +116,6 @@ no_self_update = true
 # (default: false)
 # poetry_force_self_update = true
 
-
 [conda]
 # Additional named conda environments to update (`conda env update -n env_name`)
 # env_names = [
@@ -134,17 +128,14 @@ no_self_update = true
 #     "~/experiments/.conda/"
 # ]
 
-
 [composer]
 # self_update = true
 
-
 [brew]
-greedy_cask = false
-greedy_latest = false
 autoremove = true
 fetch_head = true
-
+greedy_cask = false
+greedy_latest = false
 
 [linux]
 # Arch Package Manager to use.
@@ -195,13 +186,11 @@ fetch_head = true
 # Extra Home Manager arguments
 # home_manager_arguments = ["--flake", "file"]
 
-
 [mandb]
 # Enable the mandb step (to update manual entries).
 # Mandb is updated in the background by a service on most systems by default.
 # (default: false)
 # enable = true
-
 
 [git]
 # How many repos to pull at max in parallel
@@ -218,7 +207,6 @@ fetch_head = true
 
 # Arguments to pass Git when pulling Repositories
 # arguments = "--rebase --autostash"
-
 
 [windows]
 # Manually select Windows updates
@@ -253,31 +241,25 @@ fetch_head = true
 # (default: false)
 # winget_use_sudo = true
 
-
 [npm]
 # Use sudo if the NPM directory isn't owned by the current user
 # use_sudo = true
-
 
 [yarn]
 # Run `yarn global upgrade` with `sudo`
 # use_sudo = true
 
-
 [deno]
 # Upgrade deno executable to the given version.
 # version = "stable"
-
 
 [vim]
 # For `vim-plug`, execute `PlugUpdate!` instead of `PlugUpdate`
 # force_plug_update = true
 
-
 [firmware]
 # Offer to update firmware; if false just check for and display available updates
 # upgrade = true
-
 
 [vagrant]
 # Vagrant directories
@@ -289,11 +271,9 @@ fetch_head = true
 # Always suspend vagrant boxes instead of powering off
 # always_suspend = true
 
-
 [flatpak]
 # Use sudo for updating the system-wide installation
 # use_sudo = true
-
 
 [distrobox]
 # use_root = false

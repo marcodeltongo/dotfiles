@@ -1,219 +1,300 @@
-# This is Git's per-user configuration file.
+# This is the global git configuration for all repositories on this machine.
+#
+# Required tools:
+# - git-lfs (Git Large File Storage) if you store large files
+# - gpg (for signing commits) and a signing key configured
+# - gh (GitHub CLI)
+# - delta (for improved diffs and side-by-side viewing)
+# - hx (Helix editor) or change core.editor to your preferred editor
+#
+# Optional tools:
+# - git-get (for fetching and installing dependencies)
 
 [user]
-	# Set global user info only if you use one account across all repositories.
-	#
-	# If you have multiple accounts, set name/email per repository with:
-	# git config --local user.name "Your Name"
-	# git config --local user.email "you@example.com"
-	#
-	name = Marco Del Tongo
-	email = info@marcodeltongo.com
+# Set global user info only if you use one account across all repositories
+name = Marco Del Tongo
+email = info@marcodeltongo.com
+signingKey = 3D62D6AD9309AD9F
+
+# If you have multiple accounts, edit local repo .git/config or use:
+# git config --local user.name "Your Name"
+# git config --local user.email "you@example.com"
 
 [credential]
-	# Cache credentials to avoid re-entering them frequently.
-	helper = cache
+# Cache credentials to avoid re-entering them frequently (macOS)
+helper = osxkeychain
+# In GitHub repos we use the GH CLI to authenticate
+[credential "https://github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
 
 [init]
-	# Ensure new repositories use 'main' as the default branch.
-	defaultBranch = main
+# Ensure new repositories use 'main' as the default branch
+defaultBranch = main
+
+[fetch]
+# Prune automatically when fetching to remove stale remote-tracking branches
+prune = true
+
+[commit]
+# Sign commits using GPG or SSH keys
+gpgsign = true
+
+[branch]
+# Automatically set up tracking for new branches
+autoSetupMerge = true
 
 [pull]
-	# Keep history linear by rebasing local commits on top of pulled changes
-	rebase = true
+# Keep history linear by rebasing local commits on top of pulled changes
+rebase = true
 
 [color]
-	# Enable colors in color-supporting terminals
-	ui = auto
-
-[alias]
-	# List available aliases
-	aliases = !git config --get-regexp alias | sed -re 's/alias\\.(\\S*)\\s(.*)$/\\1 = \\2/g'
-
-	# Command shortcuts
-	st = status # is not needed if you use the git alias function in .zshrc
-	ci = commit
-	cm = "!f() { git commit -m \"$1\"; }; f"
-	br = branch
-	co = checkout
-	ds = diff --staged
-
-	# Stage modified and deleted files, commit all changes with a message, and push to the remote
-	done = "!f() { git add -u && git commit -m \"$1\" && git push; }; f"
-
-	# Stage all changes (new, modified, deleted)
-	add-all = add .
-	stage-all = add .
-
-	# Stage only modified and deleted files, not new ones
-	add-updated = add -u
-	stage-updated = add -u
-
-	# Display tree-like log with decoration and abbreviated commits
-	lg = log --graph --decorate --pretty=oneline --abbrev-commit --all
-
-	# Useful for amending the last commit without editing the message
-	oops = commit --amend --no-edit
-
-	# Review local commits not pushed to the remote
-	review = "!git lg @{push}.."
-
-	# Edit last commit message
-	reword = commit --amend
-
-	# Undo last commit but keep changes staged
-	uncommit = reset --soft HEAD~1
-
-	# Remove file(s) from Git but not disk
-	untrack = rm --cache --
-
-	# Unstage files (undo git add)
-	unstage = reset HEAD --
-
-	# Run garbage collection to clean up unnecessary files
-	gc = !git gc --prune=now
-
-	# ----------------------------------------
-	# GitHub CLI integration
-
-	# Create a pull request via GitHub CLI
-	pr = !gh pr create --web
-
-	# Fork a repo via GitHub CLI
-	fork = !gh repo fork --remote
-
-	# Create an issue via GitHub CLI
-	issue = !gh issue create
-
-	# Open GitHub repo in browser
-	browse = !gh repo view --web
-
-	# Create a new GitHub repo using SSH and set the remote
-	newrepo = !gh repo create --public --source=. --remote=origin --ssh
-
-	# Trigger a GitHub workflow run via CLI
-	run-ci = !gh workflow run
-
-	# Undo last action via reflog
-	undo = reset --hard HEAD@{1}
-
-	# Undo last commit but keep changes
-	undo-commit = reset --soft HEAD~1
-
-	# Show collaborators of a GitHub repo
-	contributors = !gh repo view --json collaborators --jq '.collaborators[].login'
-
-	# Fetch a PR branch by PR number
-	fetch-pr = "!f() { git fetch origin pull/$1/head:pr-$1; }; f"
-
-	# Checkout a GitHub PR locally
-	pr-checkout = !gh pr checkout
-
-	# Set upstream remote to the current origin URL
-	set-upstream = "!git remote add upstream $(git config --get remote.origin.url)"
-
-	# Sync fork with upstream/main
-	sync-fork = "!git fetch upstream && git merge upstream/main"
-
-	# ----------------------------------------
-	# Trunk-Based Development (TBD)
-
-	# Create a new feature branch
-	new-feature = "!git checkout -b feature/$1"
-
-	# Create a new bugfix branch
-	new-bugfix = "!git checkout -b bugfix/$1"
-
-	# Create a new hotfix branch
-	new-hotfix = "!git checkout -b hotfix/$1"
-
-	# Merge the current branch into main and delete it locally
-	finish-branch = "!f() { branch=$(git symbolic-ref --short HEAD); git checkout main && git pull origin main && git merge $branch && git push origin main && git branch -d $branch; }; f"
-
-	# Sync main with the latest remote changes
-	sync-main = "!git checkout main && git pull origin main"
-
-	# Prune merged branches
-	prune-branches = "!git fetch -p && git branch --merged | grep -v '\\*\\|main\\|master' | xargs -n 1 git branch -d"
-
-	# Commit all changes as a Work In Progress (WIP)
-	wip = "!git add -A && git commit -m 'WIP' --no-verify"
-
-	# Undo the last WIP commit, keeping the changes staged
-	undo-wip = "!git reset --soft HEAD~1"
-
-	# Rebase your feature branch with the latest main changes
-	update-feature = "!git fetch origin && git rebase origin/main"
-
-	# Push the current branch to the remote
-	push-branch = "!git push -u origin $(git symbolic-ref --short HEAD)"
-
-[core]
-	# Use delta as the pager
-	pager = delta
-	# Specify global ignore file for personal ignore patterns
-	excludesfile = ~/.gitignore_global
-	# Set default editor
-	editor = hx
-	# Ignore trailing whitespace in merge conflicts
-	whitespace = -trailing-space
-
-[interactive]
-	diffFilter = delta --color-only
-
-[delta]
-	side-by-side = true
-	line-numbers = true
-	navigate = true
-	syntax-theme = gruvbox-dark
-	hyperlinks = true
-
-[merge]
-	conflictstyle = zdiff3
-
-[diff]
-	# colorMoved = default
+# Enable colors in color-supporting terminals
+ui = auto
 
 [push]
-	# Push the current branch to a remote branch of the same name
-	default = current
-	# Automatically push tags associated with commits being pushed
-	followTags = true
-	# Automatically set up tracking for branches when pushing for the first time
-	autoSetupRemote = true
+# Push only the current branch to its upstream (safer than 'current', recommended default)
+default = simple
+# Automatically push tags associated with commits being pushed
+followTags = true
+# Automatically set up tracking for branches when pushing for the first time
+autoSetupRemote = true
 
 [rebase]
-	# Automatically fix up and squash commits during interactive rebase
-	autoSquash = true
-	# Stash and restore working directory automatically during rebase
-	autoStash = true
+# Automatically fix up and squash commits during interactive rebase
+autoSquash = true
+# Stash and restore working directory automatically during rebase
+autoStash = true
 
-[help]
-	# Automatically correct mistyped commands after a short delay (3 seconds)
-	autocorrect = 30
+[core]
+# Requires delta to be installed separately; falls back to less if not available
+pager = delta
+# Specify global ignore file for personal ignore patterns
+excludesfile = ~/.gitignore_global
+# Set Helix as default editor, change to nvim, zed --wait, code --wait, or your preferred editor
+editor = hx
+# Ignore trailing whitespace when computing diffs during merges (prevents false conflicts)
+whitespace = -trailing-space
 
-[rerere]
-	# Automatically remember conflict resolutions to reuse them in future merges
-	enabled = true
-	# Apply recorded conflict resolutions automatically
-	autoupdate = true
+[interactive]
+diffFilter = delta --color-only
+
+[delta]
+side-by-side = true
+line-numbers = true
+navigate = true
+syntax-theme = gruvbox-dark
+hyperlinks = true
+
+[merge]
+conflictstyle = zdiff3
 
 [tag]
-	# Sort tags as version numbers whenever applicable, so 1.10.2 is AFTER 1.2.0.
-	sort = version:refname
+# Sort tags as version numbers whenever applicable, so 1.10.2 is AFTER 1.2.0
+sort = version:refname
+# Sign tags using GPG or SSH keys
+gpgSign = true
 
 [versionsort]
-	prereleaseSuffix = -pre
-	prereleaseSuffix = .pre
-	prereleaseSuffix = -beta
-	prereleaseSuffix = .beta
-	prereleaseSuffix = -rc
-	prereleaseSuffix = .rc
+# Prerelease versions sorted before stable versions (e.g., v1.0-beta < v1.0)
+prereleaseSuffix = -dev
+prereleaseSuffix = -alpha
+prereleaseSuffix = -beta
+prereleaseSuffix = -rc
+prereleaseSuffix = -hotfix
+
+[rerere]
+# Automatically remember conflict resolutions to reuse them in future merges
+enabled = true
+# Apply recorded conflict resolutions automatically
+autoupdate = true
+
+[advice]
+# Disable verbose advice messages in newer Git versions to reduce noise
+skippedCherryPicks = false
+
+[help]
+# Automatically correct mistyped commands after a short delay (3 seconds)
+autocorrect = 30
 
 [filter "lfs"]
-	# On GitHub remember to add a .gitattributes file with:
-	# *.largefiletype filter=lfs diff=lfs merge=lfs -text
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+# Only needed if you store large files; otherwise remove this section.
+# On GitHub remember to add a .gitattributes file with:
+# *.largefiletype filter=lfs diff=lfs merge=lfs -text
+clean = git-lfs clean -- %f
+smudge = git-lfs smudge -- %f
+process = git-lfs filter-process
+required = false
+
+[alias]
+# ========================================
+# COMMON ALIASES
+# ========================================
+
+# Show brief status summary
+st = status -sb
+# Show staged changes (what will be committed)
+ds = diff --staged
+# Commit shorthand
+cm = commit -m
+
+# Undo operations
+amend = commit --amend --no-edit
+reword = commit --amend
+uncommit = reset --soft HEAD~1
+unstage = restore --staged
+undo = reset --soft HEAD~1
+# ⚠️ Discards all uncommitted changes.
+undo-hard = reset --hard HEAD@{1}
+
+# File operations
+all = add .
+upd = add -u
+untrack = rm --cache --
+
+# Inspection
+aliases = config --get-regexp alias
+hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+lo = log --graph --decorate --pretty=oneline --abbrev-commit --all
+last = log --oneline -1
+review = "!git log --graph --decorate --pretty=oneline --abbrev-commit @{push}.."
+
+# Garbage collection
+gc = !git gc --prune=now
+
+# ========================================
+# FEATURE BRANCH WORKFLOW
+# ========================================
+
+# Create and checkout a new feature branch from main
+feature = !git checkout main && git pull --rebase origin main && git checkout -b feature/$1
+
+# Create and checkout a new bugfix branch from main
+bugfix = !git checkout main && git pull --rebase origin main && git checkout -b bugfix/$1
+
+# Pull with rebase from origin/main to keep history linear
+pull-main = !git checkout main && git pull --rebase origin main
+
+# Sync current feature branch with latest main changes
+rebase-on-main = !git pull-main && git checkout - && git rebase main
+
+# Quick way to save work-in-progress without worrying about commit message quality
+wip = !git add -A && git commit -m 'WIP' --no-verify
+
+# Undo the last WIP commit, keeping the changes staged
+undo-wip = !git reset --soft HEAD~1
+
+# Stage and push all changes at once
+done = "!f() { git add -u && git commit -m \"$1\" && git push; }; f"
+
+# Merge current branch into main with squash (cleaner history)
+merge-branch = "!f() { \
+  set -eu; \
+  branch=$(git symbolic-ref --short HEAD); \
+  if [ \"$branch\" = \"main\" ]; then echo \"❌ Already on main\" >&2; exit 1; fi; \
+  if ! git diff --quiet || ! git diff --cached --quiet; then \
+    echo \"❌ Working tree or index not clean\" >&2; exit 1; \
+  fi; \
+  git checkout main && \
+  git pull --rebase origin main && \
+  git checkout \"$branch\" && \
+  git rebase main && \
+  git checkout main && \
+  git merge --squash \"$branch\" && \
+  git commit -m \"Merge $branch into main\" && \
+  git push origin main && \
+  git branch -d \"$branch\"; \
+}; f"
+
+# Delete merged local and remote branches
+cleanup-branches = !git checkout main && git pull --prune origin && git branch --merged main | grep -v 'main$' | xargs git branch -d && git remote prune origin
+
+# ========================================
+# GITHUB CLI INTEGRATION
+#
+# Requires `gh` CLI to be authenticated.
+# ========================================
+
+# Open GitHub repo in browser
+browse = !gh repo view --web
+
+# Create a new GitHub repo using SSH and set the remote
+init-private-repo = !gh repo create --private --source=. --remote=origin --ssh
+init-public-repo = !gh repo create --public --source=. --remote=origin --ssh
+
+# ========================================
+# Pull requests
+# ========================================
+
+# List open PRs
+prs = !gh pr list
+
+# Create a pull request via GitHub CLI
+pr = !gh pr create --web
+
+# Create a draft PR (useful before ready for review)
+pr-draft = !gh pr create --draft --web
+
+# Checkout a GitHub PR locally by number or TUI
+pr-checkout = !gh pr checkout
+
+# Open PR in the browser
+pr-view = !gh pr view --web
+
+# Check PR status on current branch
+pr-status = !gh pr view
+
+# Merge PR via CLI (if you want to avoid web UI)
+pr-merge = !gh pr merge --squash --delete-branch
+
+# ========================================
+# GitHub Issues
+# ========================================
+
+# List open issues in the repo
+issues = !gh issue list
+
+# List issues assigned to you
+my-issues = !gh issue list --assignee @me
+
+# Create an issue via GitHub CLI
+issue = !gh issue create
+
+# View a specific issue in the browser
+issue-view = !gh issue view $1 --web
+
+# ========================================
+# GitHub Actions for CI/CD
+# ========================================
+
+# List all workflows in the repo
+workflows = !gh workflow list
+
+# View recent workflow runs
+runs = !gh run list
+
+# Trigger a GitHub workflow run via CLI
+run-ci = !gh workflow run
+
+# ========================================
+# Forks
+# ========================================
+
+# Fork a repo via GitHub CLI
+fork = !gh repo fork --remote
+
+# Set upstream remote to the current origin URL
+set-fork-upstream = "!git remote add upstream $(git config --get remote.origin.url)"
+
+# Sync fork with upstream/main
+sync-fork = "!git fetch upstream && git merge upstream/main"
+
+# ========================================
+# https://github.com/grdl/git-get
+# ========================================
+[gitget]
+	root = ~/Developer/
+	skip-host = true

@@ -4,7 +4,7 @@ command = /opt/homebrew/bin/fish
 shell-integration = fish
 # initial-command =
 
-# Window layout 
+# Window layout
 window-save-state = always
 macos-titlebar-style = tabs
 macos-titlebar-proxy-icon = hidden
@@ -15,9 +15,10 @@ background-blur = true
 # Quick terminal
 keybind = global:cmd+`=toggle_quick_terminal
 quick-terminal-animation-duration = 0.1
-quick-terminal-position = center
+quick-terminal-position = top
 quick-terminal-size = 60%,100%
 
 # Appearance
 # ghostty +list-themes
 theme = Gruvbox Material Dark
+keybind = shift+enter=text:\x1b\r

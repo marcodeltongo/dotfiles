@@ -95,12 +95,13 @@ Use the following commands to interact with your dotfiles repository:
   rm --recursive dotfiles-tmp
   ```
 
-3. **Reinstall packages from `brew_packages.txt`**:
+3. **Reinstall packages with Homebrew**:
 
-  If you've exported your Homebrew packages list, you can reinstall them using this command:
+  If you've exported your Homebrew packages lists, you can reinstall them using this command:
 
   ```bash
-  xargs brew install < ~/.config/brew_packages.txt
+  xargs brew install < ~/.config/brew_formulas.txt
+  xargs brew install --cask < ~/.config/brew_casks.txt
   ```
 
 ## Included Configurations
@@ -108,10 +109,12 @@ Use the following commands to interact with your dotfiles repository:
 This repository includes configuration files for:
 
 - [Git](https://git-scm.com/)
-- [Fish shell](https://fishshell.com/)
-- [Starship prompt](https://starship.rs/)
-- [Homebrew package manager](https://brew.sh/)
+- [Fish](https://fishshell.com/)
+- [Ghostty](https://ghostty.org/)
+- [Starship](https://starship.rs/)
+- [Homebrew](https://brew.sh/)
 - [Topgrade](https://github.com/r-darwish/topgrade)
+- [Mise-en-place](https://mise.jdx.dev/)
 
 **Remember** to customize configurations like Git username and email after cloning.
 
@@ -120,10 +123,11 @@ This repository includes configuration files for:
 To export a list of the packages you explicitly installed (excluding dependencies), use the following command:
 
 ```bash
-brew leaves > ~/.config/brew_packages.txt
+brew leaves --installed-on-request > .config/brew_formulas.txt
+brew list --cask > .config/brew_casks.txt
 ```
 
-This will create a `brew_packages.txt` file containing only the packages you requested to install, without including any dependencies.
+This will create two files containing only the packages you requested to install, without including any dependencies.
 
 ## Unlicense
 

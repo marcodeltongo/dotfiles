@@ -1,5 +1,7 @@
 # ---
 # Global settings
+#
+# Note: fish automatically reads ~/.config/fish/conf.d/*.fish on startup.
 # ---
 
 # Environment settings
@@ -49,18 +51,16 @@ if status is-interactive
     abbr --add ... ../../
     abbr --add lg lazygit
 
+    # Folders listings
+    abbr --add ls eza
+    abbr --add l eza -a --icons --group-directories-first --git --git-repos
+    abbr --add ll eza -a --icons --group-directories-first --git --git-repos -l --no-user --time-style=relative -X
+    abbr --add tree eza -a --icons --group-directories-first --git --git-repos -T -L 3
+    abbr --add dree eza -a --icons --group-directories-first --git --git-repos -T -L 3 --git-ignore
+
     # ---
     # Custom functions
     # ---
-
-    # git: show status if no arguments are given
-    function git
-        if test (count $argv) -eq 0
-            command git status
-        else
-            command git $argv
-        end
-    end
 
     # mkcd: make directory and change into it
     function mkcd
@@ -74,8 +74,9 @@ if status is-interactive
 
     # conf: edit configuration files
     function conf
-        $EDITOR ~/.config \
+        $VISUAL ~/.config \
             ~/.gitconfig
+        src
     end
 
     # src: reload fish configuration
@@ -97,7 +98,13 @@ if status is-interactive
     atuin init fish | source
     zoxide init fish | source
 
-    # Show system info only in Ghostty and not in VSCode terminal
+    # https://mise.jdx.dev/getting-started.html#activate-mise
+    ~/.local/bin/mise activate fish | source
+
+    # opencode
+    fish_add_path /Users/marco/.opencode/bin
+
+    # Only in Ghostty (and not in VSCode or Terminal)
     if test "$TERM_PROGRAM" = ghostty
         # Prompt
         function starship_transient_prompt_func
@@ -108,7 +115,9 @@ if status is-interactive
         # System info
         macchina -s -m -p -D /
     end
+else
+    # Non-interactive session settings can go here
 
-    # opencode
-    fish_add_path /Users/marco/.opencode/bin
+    # https://mise.jdx.dev/ide-integration.html#adding-shims-to-path-default-shell
+    ~/.local/bin/mise activate fish --shims | source
 end

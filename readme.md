@@ -113,7 +113,7 @@ This repository includes configuration files for:
 - [Ghostty](https://ghostty.org/)
 - [Starship](https://starship.rs/)
 - [Homebrew](https://brew.sh/)
-- [Topgrade](https://github.com/r-darwish/topgrade)
+- [Topgrade](https://github.com/topgrade-rs/topgrade)
 - [Mise-en-place](https://mise.jdx.dev/)
 
 **Remember** to customize configurations like Git username and email after cloning.

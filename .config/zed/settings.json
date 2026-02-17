@@ -1,0 +1,73 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+    "edit_predictions": {
+        "mode": "eager",
+    },
+    "icon_theme": "Catppuccin Latte",
+    "helix_mode": false,
+    "vim_mode": false,
+    "terminal": {
+        "env": {},
+        "font_size": 14.0,
+        "font_family": "JetBrainsMono Nerd Font",
+        "line_height": {
+            "custom": 1.2,
+        },
+        "cursor_shape": "underline",
+        "blinking": "on",
+        "copy_on_select": true,
+    },
+    "telemetry": {
+        "diagnostics": false,
+        "metrics": false,
+    },
+    "base_keymap": "VSCode",
+    "vertical_scroll_margin": 8.0,
+    "gutter": {
+        "folds": true,
+    },
+    "minimap": {
+        "show": "never",
+    },
+    "hover_popover_delay": 500,
+    "cursor_blink": true,
+    "buffer_font_fallbacks": ["Maple Mono NF", "JetBrains Mono", ".ZedMono"],
+    "buffer_font_family": "Maple Mono Normal NF",
+    "buffer_font_size": 14.0,
+    "auto_indent_on_paste": true,
+    "linked_edits": true,
+    "use_on_type_format": true,
+    "show_edit_predictions": true,
+    "indent_guides": {
+        "enabled": false,
+    },
+    "soft_wrap": "none",
+    "hard_tabs": false,
+    "tab_size": 4,
+    "ui_font_size": 14,
+    "theme": {
+        "mode": "system",
+        "light": "Gruvbox Light",
+        "dark": "Everforest Dark Hard",
+    },
+    "agent_servers": {
+        "mistral-vibe": {
+            "type": "registry"
+        },
+        "kimi": {
+            "type": "registry"
+        },
+        "OpenCode": {
+            "type": "custom",
+            "command": "opencode",
+            "args": ["acp"],
+        },
+    },
+}

@@ -1,28 +1,13 @@
-# $schema = "https://mise.jdx.dev/schema/mise.json"
-
-# minimum version of mise required to use this config
-min_version = "2025.12.12"
-
-# ---
-
 [env]
 
-# enable experimental features
-MISE_EXPERIMENTAL = 1
-
-# ---
-
 [settings]
-
+# config files with these prefixes will be trusted by default
+trusted_config_paths = ['~/Developer/']
 # https://mise.jdx.dev/mise-cookbook/python.html#mise-uv
 python.uv_venv_auto = true
 
-# config files with these prefixes will be trusted by default
-trusted_config_paths = ['~/Developer/']
-
-# ---
-
 [tools]
+usage = "latest"
 uv = "latest"
 go = "latest"
 bun = "latest"

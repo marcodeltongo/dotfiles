@@ -1,8 +1,7 @@
 apparency
-atuin-desktop
 autoraiseapp
-block-goose
 codex
+codexbar
 font-fira-code
 font-fira-code-nerd-font
 font-inter
@@ -19,7 +18,7 @@ imageoptim
 keyclu
 linearmouse
 lm-studio
-onlyoffice
+macdown-3000
 orion
 pearcleaner
 qlcolorcode

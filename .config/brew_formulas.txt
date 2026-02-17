@@ -1,4 +1,3 @@
-atuin
 bat
 eva
 eza
@@ -8,14 +7,19 @@ fzf
 gh
 git
 git-delta
+git-lfs
+glow
 grdl/tap/git-get
 helix
 homebrew-ffmpeg/ffmpeg/ffmpeg
+jq
 lazydocker
 lazygit
 macchina
-neovim
+mole
+pandoc
 starship
 topgrade
 tz
+worktrunk
 zoxide

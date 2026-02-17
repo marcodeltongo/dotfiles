@@ -15,8 +15,8 @@ background-blur = true
 # Quick terminal
 keybind = global:cmd+`=toggle_quick_terminal
 quick-terminal-animation-duration = 0.1
-quick-terminal-position = top
-quick-terminal-size = 60%,100%
+quick-terminal-position = bottom
+quick-terminal-size = 80%,60%
 
 # Appearance
 # ghostty +list-themes

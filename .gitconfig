@@ -1,14 +1,15 @@
 # This is the global git configuration for all repositories on this machine.
 #
 # Required tools:
-# - git-lfs (Git Large File Storage) if you store large files
-# - gpg (for signing commits) and a signing key configured
+# - git-lfs (Git Large File Storage, if you store large files)
+# - gpg (for signing commits with a configured GPG key)
 # - gh (GitHub CLI)
 # - delta (for improved diffs and side-by-side viewing)
-# - hx (Helix editor) or change core.editor to your preferred editor
 #
 # Optional tools:
-# - git-get (for fetching and installing dependencies)
+# - lazygit: https://github.com/jesseduffield/lazygit
+# - git-get: https://github.com/grdl/git-get
+# - worktrunk: https://worktrunk.dev
 
 [user]
 # Set global user info only if you use one account across all repositories
@@ -74,8 +75,6 @@ autoStash = true
 pager = delta
 # Specify global ignore file for personal ignore patterns
 excludesfile = ~/.gitignore_global
-# Set Helix as default editor, change to nvim, zed --wait, code --wait, or your preferred editor
-editor = hx
 # Ignore trailing whitespace when computing diffs during merges (prevents false conflicts)
 whitespace = -trailing-space
 
@@ -127,7 +126,7 @@ autocorrect = 30
 clean = git-lfs clean -- %f
 smudge = git-lfs smudge -- %f
 process = git-lfs filter-process
-required = false
+required = true
 
 [alias]
 # ========================================
@@ -138,30 +137,59 @@ required = false
 st = status -sb
 # Show staged changes (what will be committed)
 ds = diff --staged
-# Commit shorthand
+# Commit with message shorthand
 cm = commit -m
+# Checkout shorthand
+co = checkout
+# Branch shorthand
+br = branch
+# Commit all (new + modified + deleted), with message
+cam = "!git add -A && git commit -m"
+# Commit tracked only, with message
+cum = commit -am
 
 # Undo operations
-amend = commit --amend --no-edit
-reword = commit --amend
-uncommit = reset --soft HEAD~1
-unstage = restore --staged
+# ---
+
+# Undo last commit, keep changes in working directory
 undo = reset --soft HEAD~1
-# ⚠️ Discards all uncommitted changes.
+# Amend last commit without changing message
+amend = commit --amend --no-edit
+# Change last commit message
+reword = commit --amend
+# Unstage all staged changes
+unstage = restore --staged
+# ⚠️ Discard all uncommitted changes; reverts to previous state
 undo-hard = reset --hard HEAD@{1}
 
 # File operations
-all = add .
+# ---
+
+# Add all files (new + modified + deleted) to staging area
+all = add -A
+# Stage updates to already tracked files only
 upd = add -u
+# Remove file from git tracking without deleting it
 untrack = rm --cache --
 
 # Inspection
-aliases = config --get-regexp alias
-hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
-lo = log --graph --decorate --pretty=oneline --abbrev-commit --all
-last = log --oneline -1
-review = "!git log --graph --decorate --pretty=oneline --abbrev-commit @{push}.."
+# ---
 
+# List all git aliases
+aliases = config --get-regexp alias
+# Show minimal log with commits across all branches
+lo = log --graph --decorate --pretty=oneline --abbrev-commit --date=short --all
+# Show short format log with full file stats across all branches
+ll = log --graph --decorate --pretty=short --abbrev-commit --all --stat
+# Show last commit
+last = log --stat --abbrev-commit --graph -1
+# Show commits ready to be pushed (on current branch but not on origin)
+review = log --graph --decorate --pretty=oneline --abbrev-commit @{push}..
+
+# Fetch then show commits on upstream that current branch doesn't have
+behind = "!git fetch && git log HEAD..@{u} --graph --decorate --pretty=oneline --abbrev-commit --shortstat"
+# Show commits on current branch that aren't on upstream
+ahead = "!git log @{u}..HEAD --graph --decorate --pretty=oneline --abbrev-commit --shortstat"
 # Garbage collection
 gc = !git gc --prune=now
 
@@ -170,10 +198,10 @@ gc = !git gc --prune=now
 # ========================================
 
 # Create and checkout a new feature branch from main
-feature = !git checkout main && git pull --rebase origin main && git checkout -b feature/$1
+feature = "!f() { git checkout main && git pull --rebase origin main && git checkout -b feature/$1; }; f"
 
 # Create and checkout a new bugfix branch from main
-bugfix = !git checkout main && git pull --rebase origin main && git checkout -b bugfix/$1
+bugfix = "!f() { git checkout main && git pull --rebase origin main && git checkout -b bugfix/$1; }; f"
 
 # Pull with rebase from origin/main to keep history linear
 pull-main = !git checkout main && git pull --rebase origin main
@@ -260,11 +288,23 @@ issues = !gh issue list
 # List issues assigned to you
 my-issues = !gh issue list --assignee @me
 
-# Create an issue via GitHub CLI
-issue = !gh issue create
+# Create/view an issue via GitHub CLI
+issue = "!f() { \
+  if [ -z $1 ]; then \
+    gh issue create; \
+  else \
+    gh issue view $1; \
+  fi; \
+}; f"
 
-# View a specific issue in the browser
-issue-view = !gh issue view $1 --web
+# Create/view an issue via GitHub web
+issue-web = "!f() { \
+  if [ -z $1 ]; then \
+    gh issue create --web; \
+  else \
+    gh issue view $1 --web; \
+  fi; \
+}; f"
 
 # ========================================
 # GitHub Actions for CI/CD
@@ -296,5 +336,5 @@ sync-fork = "!git fetch upstream && git merge upstream/main"
 # https://github.com/grdl/git-get
 # ========================================
 [gitget]
-	root = ~/Developer/
-	skip-host = true
+root = ~/Developer/
+skip-host = true

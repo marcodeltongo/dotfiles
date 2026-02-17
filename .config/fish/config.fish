@@ -1,68 +1,75 @@
-# ---
-# Global settings
-#
-# Note: fish automatically reads ~/.config/fish/conf.d/*.fish on startup.
-# ---
+# ==========================================================
+# Fish shell global settings • https://fishshell.com
+# ==========================================================
+# Note:
+# ~/.config/fish/conf.d/*.fish read automatically on startup
+
+# Disable greeting for all sessions
+set -g fish_greeting
+
+# Set default key bindings
+set -g fish_key_bindings fish_default_key_bindings
 
 # Environment settings
 set -gx CACHE $HOME/.cache
 set -gx EDITOR hx
-set -gx VISUAL zed --wait
+set -gx VISUAL "zed --wait"
 
-# Disable telemetry. See https://consoledonottrack.com
+# Disable telemetry
 set -gx DO_NOT_TRACK 1
 set -gx DOTNET_CLI_TELEMETRY_OPTOUT 1
 set -gx STORYBOOK_DISABLE_TELEMETRY 1
 set -gx AZURE_CORE_COLLECT_TELEMETRY 0
 
-# Homebrew environment variables
+# Homebrew
 set -gx HOMEBREW_BAT 1
 set -gx HOMEBREW_NO_ANALYTICS 1
 set -gx HOMEBREW_NO_ENV_HINTS 1
 set -gx HOMEBREW_AUTO_UPDATE_SECS 86400
 fish_add_path /opt/homebrew/bin
 
-# pnpm
-set -gx PNPM_HOME /Users/marco/Library/pnpm
-if not string match -q -- $PNPM_HOME $PATH
-    set -gx PATH "$PNPM_HOME" $PATH
-end
+# LMStudio CLI
+set -gx PATH $PATH $HOME/.lmstudio/bin
 
-# LMStudio CLI (lms)
-set -gx PATH $PATH /Users/marco/.lmstudio/bin
-
-# ---
+# ========================================
 # Interactive settings
-# ---
+# ========================================
 
 if status is-interactive
-    # Commands to run in interactive sessions can go here
-    set -g fish_greeting
-
-    # Abbreviations for aliases
+    # Abbreviations
     abbr --add brwe brew
     abbr --add calc eva
-    abbr --add cls clear
     abbr --add cat bat
     abbr --add grep rg
     abbr --add find fd
-    abbr --add up topgrade
-    abbr --add now tz -q
     abbr --add ... ../../
-    abbr --add lg lazygit
+    abbr --add conf conf-func
+    abbr --add src src-func
 
-    # Folders listings
-    abbr --add ls eza
-    abbr --add l eza -a --icons --group-directories-first --git --git-repos
-    abbr --add ll eza -a --icons --group-directories-first --git --git-repos -l --no-user --time-style=relative -X
-    abbr --add tree eza -a --icons --group-directories-first --git --git-repos -T -L 3
-    abbr --add dree eza -a --icons --group-directories-first --git --git-repos -T -L 3 --git-ignore
+    # Directory listings (using eza)
+    set -l EZA_OPTS -a --icons --group-directories-first --git --git-repos
+    function ls
+        eza $EZA_OPTS $argv
+    end
+    function ll
+        eza $EZA_OPTS -l --no-user --time-style=relative -X $argv
+    end
+    function la
+        eza $EZA_OPTS -l --no-user --time-style=relative -X --all --total-size $argv
+    end
+    function tree
+        eza $EZA_OPTS -T -L 3 $argv
+    end
+    function dree
+        eza $EZA_OPTS -T -L 3 --git-ignore $argv
+    end
 
-    # ---
+    # Upgrade packages
+    function up
+        topgrade --cleanup
+    end
+
     # Custom functions
-    # ---
-
-    # mkcd: make directory and change into it
     function mkcd
         if test (count $argv) -eq 0
             echo "Usage: mkcd [directory]"
@@ -72,52 +79,31 @@ if status is-interactive
         cd $argv[1]
     end
 
-    # conf: edit configuration files
-    function conf
-        $VISUAL ~/.config \
-            ~/.gitconfig
-        src
+    function conf-func
+        $VISUAL ~/.config ~/.gitconfig
+        src-func
     end
 
-    # src: reload fish configuration
-    function src
+    function src-func
         source ~/.config/fish/config.fish
         echo "Configuration reloaded."
     end
 
-    # dotfiles: manage dotfiles repository
     function dotfiles
         /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $argv
     end
 
-    # ---
-    # Interactive tools
-    # ---
-
+    # Tools
     fzf --fish | source
-    atuin init fish | source
     zoxide init fish | source
-
-    # https://mise.jdx.dev/getting-started.html#activate-mise
     ~/.local/bin/mise activate fish | source
+    fish_add_path $HOME/.opencode/bin
+    starship init fish | source
 
-    # opencode
-    fish_add_path /Users/marco/.opencode/bin
-
-    # Only in Ghostty (and not in VSCode or Terminal)
+    # Ghostty-specific
     if test "$TERM_PROGRAM" = ghostty
-        # Prompt
-        function starship_transient_prompt_func
-            starship module character
-        end
-        starship init fish | source
-        enable_transience
-        # System info
         macchina -s -m -p -D /
     end
 else
-    # Non-interactive session settings can go here
-
-    # https://mise.jdx.dev/ide-integration.html#adding-shims-to-path-default-shell
     ~/.local/bin/mise activate fish --shims | source
 end

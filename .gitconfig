@@ -170,7 +170,7 @@ all = add -A
 # Stage updates to already tracked files only
 upd = add -u
 # Remove file from git tracking without deleting it
-untrack = rm --cache --
+untrack = rm --cached --
 
 # Inspection
 # ---

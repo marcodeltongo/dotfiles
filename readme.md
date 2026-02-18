@@ -130,6 +130,7 @@ dotfiles lo
 | [gh-dash](https://github.com/dlvhdr/gh-dash) | `.config/gh-dash/config.yml` |
 | [Homebrew](https://brew.sh/) | `.config/brew_formulas.txt`, `.config/brew_casks.txt` |
 | SSH | `.ssh/config` |
+| [EditorConfig](https://editorconfig.org) | `.editorconfig` |
 
 ## Scripts
 

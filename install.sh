@@ -69,6 +69,11 @@ fi
 mkdir -p "$HOME/.ssh/sockets" && chmod 700 "$HOME/.ssh/sockets"
 
 # ── 4. Homebrew packages ───────────────────────────────────
+step "Homebrew taps"
+brew tap grdl/tap
+brew tap homebrew-ffmpeg/ffmpeg
+ok "Taps added"
+
 step "Homebrew packages"
 FORMULAS="$HOME/.config/brew_formulas.txt"
 CASKS="$HOME/.config/brew_casks.txt"

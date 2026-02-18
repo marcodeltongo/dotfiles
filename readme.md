@@ -19,7 +19,7 @@ To clone this repository and integrate the dotfiles into your system, follow the
 1. **Clone the repository as a bare repository**:
 
    ```bash
-   git clone --bare https://github.com/your-username/dotfiles.git $HOME/.dotfiles
+   git clone --bare https://github.com/marcodeltongo/dotfiles.git $HOME/.dotfiles
    ```
 
 2. **Checkout the dotfiles contents into your home directory**:

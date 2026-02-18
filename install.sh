@@ -65,6 +65,9 @@ else
   ok "Checked out cleanly"
 fi
 
+# SSH sockets dir required by ControlMaster in ~/.ssh/config
+mkdir -p "$HOME/.ssh/sockets" && chmod 700 "$HOME/.ssh/sockets"
+
 # ── 4. Homebrew packages ───────────────────────────────────
 step "Homebrew packages"
 FORMULAS="$HOME/.config/brew_formulas.txt"

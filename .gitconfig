@@ -141,6 +141,10 @@ cm = commit -m
 co = checkout
 # Branch shorthand
 br = branch
+# List local branches
+branches = branch --list
+# List remote branches
+remote-branches = branch --remotes
 # Commit all (new + modified + deleted), with message
 cam = "!git add -A && git commit -m"
 # Commit tracked only, with message

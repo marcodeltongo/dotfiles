@@ -77,17 +77,24 @@ ok "Taps added"
 step "Homebrew packages"
 FORMULAS="$HOME/.config/brew_formulas.txt"
 CASKS="$HOME/.config/brew_casks.txt"
+failed=()
 
 if [[ -f "$FORMULAS" ]]; then
-  grep -v '^\s*$' "$FORMULAS" | xargs brew install
-  ok "Formulae installed"
+  while IFS= read -r pkg; do
+    [[ -z "$pkg" ]] && continue
+    brew install "$pkg" || { warn "Failed: $pkg"; failed+=("$pkg"); }
+  done < "$FORMULAS"
+  ok "Formulae done"
 else
   warn "brew_formulas.txt not found, skipping"
 fi
 
 if [[ -f "$CASKS" ]]; then
-  grep -v '^\s*$' "$CASKS" | xargs brew install --cask
-  ok "Casks installed"
+  while IFS= read -r pkg; do
+    [[ -z "$pkg" ]] && continue
+    brew install --cask "$pkg" || { warn "Failed: $pkg"; failed+=("$pkg"); }
+  done < "$CASKS"
+  ok "Casks done"
 else
   warn "brew_casks.txt not found, skipping"
 fi
@@ -139,6 +146,13 @@ fi
 
 # ── Done ───────────────────────────────────────────────────
 echo ""
+if [[ ${#failed[@]} -gt 0 ]]; then
+  echo -e "${YELLOW}${BOLD}Some packages failed to install:${NC}"
+  for pkg in "${failed[@]}"; do
+    echo "  - $pkg"
+  done
+  echo ""
+fi
 echo -e "${GREEN}${BOLD}Setup complete!${NC} Open a new terminal to start using Fish."
 echo ""
 echo -e "${YELLOW}${BOLD}Before your first commit, personalize git:${NC}"

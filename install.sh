@@ -121,6 +121,14 @@ else
   ok "Already authenticated ($(gh auth status 2>&1 | grep 'Logged in' | head -1 | xargs))"
 fi
 
+# ── 8. macOS defaults ──────────────────────────────────────
+step "macOS defaults"
+if [[ -x "$HOME/scripts/macos-defaults.sh" ]]; then
+  bash "$HOME/scripts/macos-defaults.sh"
+else
+  warn "scripts/macos-defaults.sh not found, skipping"
+fi
+
 # ── Done ───────────────────────────────────────────────────
 echo ""
 echo -e "${GREEN}${BOLD}Setup complete!${NC} Open a new terminal to start using Fish."

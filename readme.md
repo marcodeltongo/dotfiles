@@ -129,6 +129,14 @@ dotfiles lo
 | [gh](https://cli.github.com/) | `.config/gh/config.yml` |
 | [gh-dash](https://github.com/dlvhdr/gh-dash) | `.config/gh-dash/config.yml` |
 | [Homebrew](https://brew.sh/) | `.config/brew_formulas.txt`, `.config/brew_casks.txt` |
+| SSH | `.ssh/config` |
+
+## Scripts
+
+| Script | Description |
+|---|---|
+| `install.sh` | Full macOS bootstrap — run once on a new machine |
+| `scripts/macos-defaults.sh` | Apply sensible macOS system defaults (Finder, Dock, keyboard, etc.) |
 
 ## Exporting Homebrew packages
 

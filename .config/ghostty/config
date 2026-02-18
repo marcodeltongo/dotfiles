@@ -2,7 +2,6 @@
 
 command = /opt/homebrew/bin/fish
 shell-integration = fish
-# initial-command =
 
 # Window layout
 window-save-state = always

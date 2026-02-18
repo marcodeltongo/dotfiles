@@ -29,7 +29,7 @@ set -gx HOMEBREW_AUTO_UPDATE_SECS 86400
 fish_add_path /opt/homebrew/bin
 
 # LMStudio CLI
-set -gx PATH $PATH $HOME/.lmstudio/bin
+fish_add_path $HOME/.lmstudio/bin
 
 # ========================================
 # Interactive settings

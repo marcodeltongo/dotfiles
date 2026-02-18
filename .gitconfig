@@ -212,6 +212,7 @@ pull-main = !git checkout main && git pull --rebase origin main
 rebase-on-main = !git pull-main && git checkout - && git rebase main
 
 # Quick way to save work-in-progress without worrying about commit message quality
+# --no-verify intentionally skips pre-commit hooks (linting, tests) for speed
 wip = !git add -A && git commit -m 'WIP' --no-verify
 
 # Undo the last WIP commit, keeping the changes staged

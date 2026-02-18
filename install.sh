@@ -107,8 +107,8 @@ if ! command -v mise &>/dev/null; then
 else
   ok "mise already installed"
 fi
-mise install
-ok "mise tools installed"
+mise install || warn "Some mise tools failed — run 'mise install' manually after setup"
+ok "mise tools done"
 
 # ── 6. Fish as default shell ───────────────────────────────
 step "Fish shell"
@@ -128,7 +128,26 @@ else
   warn "Fish not found at $FISH_PATH — skipping shell change"
 fi
 
-# ── 7. gh auth ─────────────────────────────────────────────
+# ── 7. SSH key ─────────────────────────────────────────────
+step "SSH key"
+if [[ ! -f "$HOME/.ssh/id_ed25519" ]]; then
+  read -rp "Enter your email for the SSH key: " ssh_email
+  ssh-keygen -t ed25519 -C "$ssh_email" -f "$HOME/.ssh/id_ed25519" -N ""
+  eval "$(ssh-agent -s)" &>/dev/null
+  ssh-add --apple-use-keychain "$HOME/.ssh/id_ed25519"
+  echo ""
+  echo -e "${YELLOW}${BOLD}Your public SSH key (add it to GitHub → Settings → SSH keys):${NC}"
+  echo ""
+  cat "$HOME/.ssh/id_ed25519.pub"
+  echo ""
+  read -rp "Press Enter once you've added it to GitHub..."
+  ok "SSH key ready"
+else
+  ok "SSH key already exists"
+fi
+
+# ── 8. gh auth ─────────────────────────────────────────────
+
 step "GitHub CLI"
 if ! gh auth status &>/dev/null; then
   warn "Not authenticated — run: gh auth login"
@@ -136,7 +155,7 @@ else
   ok "Already authenticated ($(gh auth status 2>&1 | grep 'Logged in' | head -1 | xargs))"
 fi
 
-# ── 8. macOS defaults ──────────────────────────────────────
+# ── 9. macOS defaults ──────────────────────────────────────
 step "macOS defaults"
 if [[ -x "$HOME/scripts/macos-defaults.sh" ]]; then
   bash "$HOME/scripts/macos-defaults.sh"

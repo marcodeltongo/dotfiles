@@ -97,6 +97,7 @@ if status is-interactive
     fzf --fish | source
     zoxide init fish | source
     ~/.local/bin/mise activate fish | source
+    wt config shell init fish | source
     fish_add_path $HOME/.opencode/bin
     starship init fish | source
 

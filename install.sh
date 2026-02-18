@@ -86,13 +86,13 @@ fi
 
 # ── 5. mise ────────────────────────────────────────────────
 step "mise"
-if [[ ! -x "$HOME/.local/bin/mise" ]]; then
-  curl https://mise.run | sh
+if ! command -v mise &>/dev/null; then
+  brew install mise
   ok "mise installed"
 else
   ok "mise already installed"
 fi
-"$HOME/.local/bin/mise" install
+mise install
 ok "mise tools installed"
 
 # ── 6. Fish as default shell ───────────────────────────────

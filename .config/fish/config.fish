@@ -90,7 +90,7 @@ if status is-interactive
     end
 
     function dotfiles
-        /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $argv
+        command git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $argv
     end
 
     # Tools

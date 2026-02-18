@@ -47,11 +47,10 @@ if [[ -o interactive ]]; then
     command -v fzf >/dev/null 2>&1 && eval "$(fzf --zsh)"
     command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
     command -v wt >/dev/null 2>&1 && eval "$(wt config shell init zsh)"
-    [[ -x "$HOME/.local/bin/mise" ]] && eval "$($HOME/.local/bin/mise activate zsh)"
   fi
-fi
 
-# Mise shims for non-interactive sessions
-if [[ -x "$HOME/.local/bin/mise" ]]; then
-  eval "$($HOME/.local/bin/mise activate zsh --shims)"
+  [[ -x "$HOME/.local/bin/mise" ]] && eval "$($HOME/.local/bin/mise activate zsh)"
+else
+  # Shims for non-interactive sessions (scripts, agents)
+  [[ -x "$HOME/.local/bin/mise" ]] && eval "$($HOME/.local/bin/mise activate zsh --shims)"
 fi

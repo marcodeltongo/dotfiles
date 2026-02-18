@@ -73,8 +73,6 @@ autoStash = true
 [core]
 # Requires delta to be installed separately; falls back to less if not available
 pager = delta
-# Specify global ignore file for personal ignore patterns
-excludesfile = ~/.gitignore_global
 # Ignore trailing whitespace when computing diffs during merges (prevents false conflicts)
 whitespace = -trailing-space
 

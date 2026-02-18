@@ -1,0 +1,70 @@
+# ==========================================================
+# Global gitignore — applies to all repositories
+# XDG path: ~/.config/git/ignore (picked up automatically)
+# ==========================================================
+
+# ── macOS ──────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.AppleDouble
+.LSOverride
+Icon?
+
+# ── Editors ────────────────────────────────────────────────
+# Zed
+.zed/
+
+# Helix
+# (no project-level artifacts)
+
+# JetBrains (IntelliJ, WebStorm, etc.)
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Vim / Neovim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+Session.vim
+.netrwhist
+
+# ── Claude Code ────────────────────────────────────────────
+**/.claude/settings.local.json
+
+# ── Node / pnpm ────────────────────────────────────────────
+node_modules/
+.pnpm-debug.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── Python ─────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+.env
+dist/
+*.egg-info/
+
+# ── Rust ───────────────────────────────────────────────────
+target/
+
+# ── Go ─────────────────────────────────────────────────────
+*.test
+*.out
+
+# ── Misc ───────────────────────────────────────────────────
+*.log
+*.tmp
+*.swp
+*.bak
+.env.local
+.env.*.local

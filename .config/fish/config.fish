@@ -47,21 +47,20 @@ if status is-interactive
     abbr --add src src-func
 
     # Directory listings (using eza)
-    set -l EZA_OPTS -a --icons --group-directories-first --git --git-repos
     function ls
-        eza $EZA_OPTS $argv
+        eza -a --icons --group-directories-first $argv
     end
     function ll
-        eza $EZA_OPTS -l --no-user --time-style=relative -X $argv
+        eza -a --icons --group-directories-first --git --git-repos --no-permissions --no-filesize --no-user --time-style=relative -l -X --all $argv
     end
     function la
-        eza $EZA_OPTS -l --no-user --time-style=relative -X --all --total-size $argv
+        eza -a --icons --group-directories-first --git --git-repos --header --time-style=relative -l -X --all --total-size $argv
     end
     function tree
-        eza $EZA_OPTS -T -L 3 $argv
+        eza -a --icons --group-directories-first -T -L 3 $argv
     end
     function dree
-        eza $EZA_OPTS -T -L 3 --git-ignore $argv
+        eza -a --icons --group-directories-first -T -L 3 --git-ignore $argv
     end
 
     # Upgrade packages
@@ -108,3 +107,6 @@ if status is-interactive
 else
     ~/.local/bin/mise activate fish --shims | source
 end
+
+# Added by Antigravity
+fish_add_path /Users/marco/.antigravity/antigravity/bin

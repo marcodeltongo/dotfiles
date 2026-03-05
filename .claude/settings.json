@@ -1,0 +1,83 @@
+{
+  "permissions": {
+    "defaultMode": "default",
+    "allow": [
+      "Read(*)",
+      "Glob(*)",
+      "Grep(*)",
+
+      "Bash(git status*)",
+      "Bash(git log*)",
+      "Bash(git diff*)",
+      "Bash(git branch*)",
+      "Bash(git show*)",
+      "Bash(git stash list*)",
+      "Bash(git remote*)",
+      "Bash(git tag*)",
+
+      "Bash(ls*)",
+      "Bash(eza*)",
+      "Bash(fd *)",
+      "Bash(find *)",
+      "Bash(pwd)",
+      "Bash(which *)",
+      "Bash(type *)",
+      "Bash(command -v *)",
+
+      "Bash(cat *)",
+      "Bash(bat *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(wc *)",
+      "Bash(jq *)",
+
+      "Bash(rg *)",
+      "Bash(grep *)",
+
+      "Bash(echo *)",
+      "Bash(date*)",
+      "Bash(env)",
+      "Bash(printenv*)",
+
+      "Bash(mise current*)",
+      "Bash(mise list*)",
+      "Bash(node --version)",
+      "Bash(node -v)",
+      "Bash(python3 --version)",
+      "Bash(bun --version)",
+      "Bash(go version)",
+      "Bash(rustc --version)",
+      "Bash(pnpm --version)"
+    ],
+    "deny": [
+      "Read(**/.env.production)",
+      "Read(**/.env.staging)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Read(**/id_rsa)",
+      "Read(**/id_ed25519)",
+      "Read(**/id_ecdsa)",
+
+      "Bash(rm -rf*)",
+      "Bash(git push --force*)",
+      "Bash(git push -f *)",
+      "Bash(sudo *)",
+      "Bash(chmod*)",
+      "Bash(chown*)"
+    ]
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "env": {
+    "CLAUDE_CODE_DISABLE_GIT_INSTRUCTIONS": "1"
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  },
+  "worktree": {
+    "symlinkDirectories": [".cache"]
+  }
+}

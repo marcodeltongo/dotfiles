@@ -1,23 +1,42 @@
-# https://ghostty.org/docs/config/reference
+# ============================================
+# Ghostty Terminal - Complete Configuration
+# ============================================
+# File: ~/.config/ghostty/config
+# Reload: Cmd+Shift+, (macOS)
+# View options: ghostty +show-config --default --docs
 
+# --- Shell ---
 command = /opt/homebrew/bin/fish
 shell-integration = fish
 
-# Window layout
-window-save-state = always
+# --- Window ---
 macos-titlebar-style = tabs
 macos-titlebar-proxy-icon = hidden
 macos-option-as-alt = true
 background-opacity = 0.9
 background-blur = true
+window-save-state = always
 
-# Quick terminal
+# --- Quick terminal ---
 keybind = global:cmd+`=toggle_quick_terminal
 quick-terminal-animation-duration = 0.1
 quick-terminal-position = bottom
 quick-terminal-size = 80%,60%
 
-# Appearance
+# --- Appearance ---
 # ghostty +list-themes
 theme = Gruvbox Material Dark
 keybind = shift+enter=text:\x1b\r
+
+# --- Typography ---
+font-thicken = true
+adjust-cell-height = 2
+
+# --- Cursor ---
+cursor-style = bar
+cursor-opacity = 0.8
+
+# --- Mouse ---
+mouse-hide-while-typing = true
+focus-follows-mouse = true
+copy-on-select = clipboard

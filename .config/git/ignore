@@ -36,6 +36,25 @@ Session.vim
 
 # ── Claude Code ────────────────────────────────────────────
 **/.claude/settings.local.json
+# Runtime/session data — never commit
+.claude/projects/
+.claude/cache/
+.claude/backups/
+.claude/history.jsonl
+.claude/stats-cache.json
+.claude/todos/
+.claude/tasks/
+.claude/session-env/
+.claude/shell-snapshots/
+.claude/telemetry/
+.claude/downloads/
+.claude/file-history/
+.claude/debug/
+.claude/ide/
+.claude/statsig/
+.claude/mcp-needs-auth-cache.json
+# Worktrees — ignore at all levels (project + global)
+**/.claude/worktrees/
 
 # ── Node / pnpm ────────────────────────────────────────────
 node_modules/

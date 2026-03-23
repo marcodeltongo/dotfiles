@@ -7,6 +7,7 @@ fzf
 gh
 git
 git-delta
+git-filter-repo
 git-lfs
 glow
 grdl/tap/git-get

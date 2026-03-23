@@ -13,7 +13,7 @@ set -g fish_key_bindings fish_default_key_bindings
 # Environment settings
 set -gx CACHE $HOME/.cache
 set -gx EDITOR hx
-set -gx VISUAL "zed --wait"
+set -gx VISUAL gram --wait
 
 # Disable telemetry
 set -gx DO_NOT_TRACK 1
@@ -30,6 +30,9 @@ fish_add_path /opt/homebrew/bin
 
 # LMStudio CLI
 fish_add_path $HOME/.lmstudio/bin
+
+# Bun
+fish_add_path /Users/marco/.bun/bin
 
 # ========================================
 # Interactive settings
@@ -79,7 +82,7 @@ if status is-interactive
     end
 
     function conf-func
-        $VISUAL ~/.config ~/.gitconfig
+        $VISUAL ~/.config ~/.gitconfig ~/readme.md
         src-func
     end
 
@@ -107,6 +110,3 @@ if status is-interactive
 else
     ~/.local/bin/mise activate fish --shims | source
 end
-
-# Added by Antigravity
-fish_add_path /Users/marco/.antigravity/antigravity/bin

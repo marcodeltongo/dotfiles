@@ -1,16 +1,25 @@
+# Global MISE configuration
+
 [env]
 
 [settings]
 # config files with these prefixes will be trusted by default
-trusted_config_paths = ['~/Developer/']
+trusted_config_paths = ["~/Developer/"]
 # https://mise.jdx.dev/mise-cookbook/python.html#mise-uv
-python.uv_venv_auto = true
+python.uv_venv_auto = "source"
 
 [tools]
 usage = "latest"
-uv = "latest"
-go = "latest"
-bun = "latest"
-node = "latest"
-rust = "latest"
+# Python ecosystem
 python = "latest"
+uv = "latest"
+# Golang ecosystem
+go = "latest"
+# JS/TS ecosystem
+node = "latest"
+pnpm = "latest"
+bun = "latest"
+# Rust ecosystem
+rust = "latest"
+# GitHub Actions linting
+actionlint = "latest"

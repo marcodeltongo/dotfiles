@@ -1,6 +1,5 @@
 apparency
 autoraiseapp
-codex
 codexbar
 font-fira-code
 font-fira-code-nerd-font
@@ -8,10 +7,8 @@ font-inter
 font-jetbrains-mono
 font-jetbrains-mono-nerd-font
 font-maple-mono
-font-maple-mono-cn
 font-maple-mono-nf
 font-maple-mono-normal
-font-maple-mono-normal-cn
 font-maple-mono-normal-nf
 gpg-suite
 gram
@@ -20,13 +17,6 @@ keyclu
 linearmouse
 lm-studio
 pearcleaner
-qlcolorcode
-qlmarkdown
-qlstephen
-qlvideo
-quicklook-json
-quicklook-video
-quicklookase
 stats
 suspicious-package
 the-unarchiver

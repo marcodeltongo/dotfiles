@@ -1,4 +1,5 @@
 bat
+cmake
 eva
 eza
 fd
@@ -19,8 +20,11 @@ lazygit
 macchina
 mole
 pandoc
+ripgrep
 starship
+tldr
 topgrade
 tz
 worktrunk
+xh
 zoxide

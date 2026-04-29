@@ -17,7 +17,7 @@ uv = "latest"
 go = "latest"
 # JS/TS ecosystem
 node = "latest"
-pnpm = "latest"
+"npm:pnpm" = "latest"
 bun = "latest"
 # Rust ecosystem
 rust = "latest"

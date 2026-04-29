@@ -1,7 +1,7 @@
 # Environment
 
 **Shell:** Fish (user terminal) — bash for tool calls
-**Editors:** `hx` (terminal), `zed --wait` (visual)
+**Editors:** `hx` (terminal), `gram --wait` (visual)
 **OS:** macOS Apple Silicon — Homebrew at `/opt/homebrew/bin`
 **Projects:** `~/Developer/` (organized via git-get)
 
@@ -30,6 +30,16 @@ No lockfile + `package.json` → default to `npm`. Version manager: `mise`.
 | `python script.py` | `uv run script.py` |
 | `npx <tool>` | `pnpm dlx` / `bunx` / `bun x` |
 | `npm run <script>` | check `mise.toml [tasks]` first, then `mise run <task>` |
+
+## Dotfiles
+
+Config files are tracked via a bare git repo at `~/.dotfiles/`. Use the `dotfiles` Fish function (alias for `git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME`) to stage and commit changes:
+
+```bash
+dotfiles add .config/mise/config.toml
+dotfiles commit -m "Update mise config"
+dotfiles push
+```
 
 ## Git
 

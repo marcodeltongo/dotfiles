@@ -19,7 +19,9 @@ Detect from lockfile, never assume:
 | `poetry.lock` | `poetry` |
 | `Pipfile.lock` | `pipenv` |
 
-No lockfile + `package.json` → default to `npm`. Version manager: `mise`.
+No lockfile + `package.json` → default to `npm`.
+
+**Runtime manager: `mise`** — manages Python, Node, Go, Rust, Bun, pnpm globally. Never suggest `nvm`, `pyenv`, `rbenv`, or similar; always use `mise use` / `mise install`.
 
 ### Tool-specific commands
 
@@ -30,6 +32,22 @@ No lockfile + `package.json` → default to `npm`. Version manager: `mise`.
 | `python script.py` | `uv run script.py` |
 | `npx <tool>` | `pnpm dlx` / `bunx` / `bun x` |
 | `npm run <script>` | check `mise.toml [tasks]` first, then `mise run <task>` |
+
+## CLI Tools
+
+Prefer modern alternatives when running shell commands:
+
+| Instead of | Use | Notes |
+|-----------|-----|-------|
+| `grep` | `rg` | ripgrep — faster, respects .gitignore |
+| `find` | `fd` | simpler syntax, respects .gitignore |
+| `ls` | `eza` | colors, git status, tree support |
+| `curl` / `wget` | `xh` | httpie-compatible, cleaner output |
+| `cat` (terminal) | `bat` | syntax highlighting, line numbers |
+| `python -c json` / manual JSON | `jq` | JSON processing |
+| `open`/browser for markdown | `glow` | render markdown in terminal |
+
+GitHub operations: use `gh` CLI. Docker TUI: `lazydocker`. Git TUI: `lazygit`.
 
 ## Dotfiles
 

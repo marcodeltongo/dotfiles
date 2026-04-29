@@ -1,6 +1,6 @@
 # Environment
 
-**Shell:** Fish (user terminal) — bash for tool calls
+**Shell:** Fish — use `fish -c "..."` in tool calls to access Fish functions (e.g. `dotfiles`)
 **Editors:** `hx` (terminal), `gram --wait` (visual)
 **OS:** macOS Apple Silicon — Homebrew at `/opt/homebrew/bin`
 **Projects:** `~/Developer/` (organized via git-get)

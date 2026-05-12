@@ -16,6 +16,7 @@ macos-option-as-alt = right
 background-opacity = 0.9
 background-blur = true
 window-save-state = always
+scrollbar = never
 
 # --- Quick terminal ---
 keybind = global:cmd+`=toggle_quick_terminal
@@ -25,10 +26,12 @@ quick-terminal-size = 80%,60%
 
 # --- Appearance ---
 # ghostty +list-themes
-theme = Gruvbox Material Dark
+# theme = Gruvbox Material Dark
+theme = Ayu Mirage
 keybind = shift+enter=text:\x1b\r
 
 # --- Typography ---
+font-size = 14
 font-thicken = true
 adjust-cell-height = 2
 

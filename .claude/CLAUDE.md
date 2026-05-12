@@ -68,3 +68,12 @@ dotfiles push
 - Feature branches: `feature/<name>` or `bugfix/<name>` off `main`
 - Finish features with squash-merge into `main`, then delete branch
 - Prefer worktrees for parallel/isolated work: `claude -w <name>` or ask me to start one
+
+## Behavior
+
+**Language:** Respond in Italian. All code, variable names, comments, commit messages, and documentation must remain in English.
+
+- Delete unused or removed code outright — never comment it out
+- Keep responses terse and direct; no trailing summaries of what was just done
+
+@RTK.md

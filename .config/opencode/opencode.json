@@ -1,5 +1,43 @@
 {
-    "$schema": "https://opencode.ai/config.json",
-    "plugin": [],
-    "mcp": {}
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [],
+  "mcp": {},
+  "default_agent": "plan",
+  "formatter": true,
+  "lsp": true,
+  "permission": {
+    "bash": {
+      "*": "ask",
+      "git status *": "allow",
+      "rtk git status *": "allow",
+      "git diff *": "allow",
+      "rtk git diff *": "allow",
+      "git log *": "allow",
+      "rtk git log *": "allow",
+      "git show *": "allow",
+      "rtk git show *": "allow",
+      "git branch *": "allow",
+      "rtk git branch *": "allow",
+      "git remote *": "allow",
+      "rtk git remote *": "allow",
+      "git config *": "allow",
+      "rtk git config *": "allow",
+      "git rev-parse *": "allow",
+      "rtk git rev-parse *": "allow",
+      "git ls-files *": "allow",
+      "rtk git ls-files *": "allow",
+      "git describe *": "allow",
+      "rtk git describe *": "allow",
+      "grep *": "allow",
+      "ls *": "allow",
+      "cat *": "allow",
+      "head *": "allow",
+      "tail *": "allow",
+      "which *": "allow",
+      "echo *": "allow",
+      "mkdir *": "allow",
+      "mise run *": "allow",
+      "rtk mise run *": "allow"
+    }
+  }
 }

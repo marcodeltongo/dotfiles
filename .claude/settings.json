@@ -59,6 +59,7 @@
       "Bash(rtk gh release view*)",
       "Bash(gh auth status*)",
       "Bash(rtk gh auth status*)",
+      "Bash(npm test*)",
       "Bash(ls*)",
       "Bash(eza*)",
       "Bash(fd *)",
@@ -75,6 +76,7 @@
       "Bash(jq *)",
       "Bash(rg *)",
       "Bash(grep *)",
+      "Bash(sed *)",
       "Bash(echo *)",
       "Bash(date*)",
       "Bash(env)",
@@ -93,6 +95,8 @@
       "Bash(go version)",
       "Bash(rustc --version)",
       "Bash(pnpm --version)",
+      "Bash(docker *)",
+      "Bash(docker-compose *)",
       "WebFetch(domain:*.github.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:gitlab.com)",
@@ -126,28 +130,6 @@
     ],
     "defaultMode": "default"
   },
-  "worktree": {
-    "symlinkDirectories": [
-      ".cache"
-    ]
-  },
-  "statusLine": {
-    "type": "command",
-    "command": "~/.claude/statusline.sh",
-    "refreshInterval": 5
-  },
-  "viewMode": "default",
-  "language": "italian",
-  "effortLevel": "high",
-  "tui": "fullscreen",
-  "theme": "dark-ansi",
-  "editorMode": "normal",
-  "autoCompactEnabled": true,
-  "fileCheckpointingEnabled": true,
-  "remoteControlAtStartup": true,
-  "agentPushNotifEnabled": true,
-  "voiceEnabled": true,
-  "model": "opusplan",
   "hooks": {
     "PreToolUse": [
       {
@@ -160,5 +142,36 @@
         ]
       }
     ]
-  }
+  },
+  "worktree": {
+    "symlinkDirectories": [".cache"]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh",
+    "refreshInterval": 5
+  },
+  "enabledPlugins": {
+    "crit@crit": true
+  },
+  "extraKnownMarketplaces": {
+    "crit": {
+      "source": {
+        "source": "github",
+        "repo": "tomasz-tomczyk/crit"
+      }
+    }
+  },
+  "model": "opusplan",
+  "viewMode": "default",
+  "language": "italian",
+  "effortLevel": "high",
+  "tui": "fullscreen",
+  "theme": "dark-ansi",
+  "editorMode": "normal",
+  "autoCompactEnabled": true,
+  "fileCheckpointingEnabled": true,
+  "remoteControlAtStartup": true,
+  "agentPushNotifEnabled": true,
+  "voiceEnabled": true
 }

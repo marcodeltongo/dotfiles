@@ -26,11 +26,11 @@ signingKey = 3D62D6AD9309AD9F
 helper = osxkeychain
 # In GitHub repos we use the GH CLI to authenticate
 [credential "https://github.com"]
-	helper =
-	helper = !/opt/homebrew/bin/gh auth git-credential
+helper =
+helper = !/opt/homebrew/bin/gh auth git-credential
 [credential "https://gist.github.com"]
-	helper =
-	helper = !/opt/homebrew/bin/gh auth git-credential
+helper =
+helper = !/opt/homebrew/bin/gh auth git-credential
 
 [init]
 # Ensure new repositories use 'main' as the default branch
@@ -72,7 +72,7 @@ autoStash = true
 
 [core]
 # Requires delta to be installed separately; falls back to less if not available
-pager = delta
+pager = hunk pager
 # Ignore trailing whitespace when computing diffs during merges (prevents false conflicts)
 whitespace = -trailing-space
 

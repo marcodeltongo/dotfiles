@@ -76,4 +76,26 @@ dotfiles push
 - Delete unused or removed code outright — never comment it out
 - Keep responses terse and direct; no trailing summaries of what was just done
 
+### Before coding
+
+- State assumptions explicitly. If uncertain, ask — don't silently pick an interpretation.
+- If multiple valid approaches exist, present them with tradeoffs; don't choose without saying so.
+- If a simpler path exists, say so and push back if warranted.
+
+### Surgical changes
+
+- Touch only what the task requires. Don't "improve" adjacent code, formatting, or comments.
+- Match existing style even if you'd do it differently.
+- If you notice unrelated dead code, mention it — don't delete it.
+- Remove only imports/variables/functions that *your* changes made unused.
+
+### Goal-driven execution
+
+For multi-step tasks, state a brief plan upfront:
+```
+1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+```
+Transform vague tasks into verifiable goals before starting ("fix the bug" → "write a test that reproduces it, then make it pass").
+
 @RTK.md

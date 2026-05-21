@@ -28,12 +28,9 @@ function verea-issue
     end
 
     set -l clone_name "verea-$branch_name"
-    set -l base_dir "$HOME/Developer/askverea/verea"
-    set -l clone_dir "$base_dir/$clone_name"
+    set -l clone_dir "$HOME/Developer/askverea/$clone_name"
 
     echo "Branch: $clone_name"
-
-    mkdir -p $base_dir
     git clone https://github.com/askverea/verea.git $clone_dir
     or return 1
 

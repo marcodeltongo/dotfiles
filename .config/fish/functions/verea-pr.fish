@@ -20,12 +20,9 @@ function verea-pr
     echo "Branch: $pr_branch"
 
     set -l clone_name "verea-$pr_branch"
-    set -l base_dir "$HOME/Developer/askverea/verea"
-    set -l clone_dir "$base_dir/$clone_name"
+    set -l clone_dir "$HOME/Developer/askverea/$clone_name"
 
     echo "Directory: $clone_name"
-
-    mkdir -p $base_dir
     git clone https://github.com/askverea/verea.git $clone_dir
     or return 1
 

@@ -97,6 +97,9 @@
       "Bash(pnpm --version)",
       "Bash(docker *)",
       "Bash(docker-compose *)",
+      "Bash(swift build*)",
+      "Bash(swift test*)",
+      "Bash(swift package*)",
       "WebFetch(domain:*.github.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:gitlab.com)",
@@ -130,6 +133,7 @@
     ],
     "defaultMode": "default"
   },
+  "model": "opusplan",
   "hooks": {
     "PreToolUse": [
       {
@@ -144,7 +148,9 @@
     ]
   },
   "worktree": {
-    "symlinkDirectories": [".cache"]
+    "symlinkDirectories": [
+      ".cache"
+    ]
   },
   "statusLine": {
     "type": "command",
@@ -152,7 +158,10 @@
     "refreshInterval": 5
   },
   "enabledPlugins": {
-    "crit@crit": true
+    "crit@crit": true,
+    "terraform-code-generation@hashicorp": true,
+    "terrashark@terrashark": true,
+    "deploy-on-aws@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "crit": {
@@ -160,9 +169,20 @@
         "source": "github",
         "repo": "tomasz-tomczyk/crit"
       }
+    },
+    "hashicorp": {
+      "source": {
+        "source": "github",
+        "repo": "hashicorp/agent-skills"
+      }
+    },
+    "terrashark": {
+      "source": {
+        "source": "github",
+        "repo": "LukasNiessen/terrashark"
+      }
     }
   },
-  "model": "opusplan",
   "viewMode": "default",
   "language": "italian",
   "effortLevel": "high",

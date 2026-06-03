@@ -1,5 +1,6 @@
 bat
 cmake
+crit
 eva
 eza
 fd
@@ -18,10 +19,14 @@ jq
 lazydocker
 lazygit
 macchina
+modem-dev/tap/hunk
 mole
 pandoc
+pkgconf
 ripgrep
+rtk
 starship
+swiftlint
 tldr
 topgrade
 tz

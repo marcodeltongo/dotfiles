@@ -15,7 +15,6 @@ gram
 imageoptim
 keyclu
 linearmouse
-lm-studio
 pearcleaner
 stats
 suspicious-package

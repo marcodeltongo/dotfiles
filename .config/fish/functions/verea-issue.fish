@@ -15,28 +15,32 @@ function verea-issue
 
     echo "Issue #$issue_number: $issue_title"
 
-    set -l branch_name (claude -p \
-        "Given this GitHub issue title, output a branch name slug: 1 word ideally, 2 max, lowercase, hyphens only, no prefixes. Reply with ONLY the slug, nothing else.\n\nIssue: $issue_title" \
-        --model claude-haiku-4-5-20251001 2>/dev/null \
-        | tr '[:upper:]' '[:lower:]' \
-        | tr -cs 'a-z0-9-' '-' \
-        | string trim --chars='-')
+    set -l branch_name (string replace -r -a '([a-z])([A-Z])' '$1-$2' -- "$issue_title" \
+        | string replace -r -a '[_/]' '-' \
+        | string lower \
+        | string replace -r -a '[^a-z0-9\s-]' '' \
+        | string trim \
+        | string replace -r -a '\s+' '-' \
+        | string replace -r -a -- '-+' '-' \
+        | string trim --chars='-' \
+        | string split '-' \
+        | string match -rv '^(fix|feat|add|update|remove|change|improve|refactor|chore|docs|test|the|a|an|and|or|for|to|in|on|with|by|of|from|into|through|during|before|after|up|down|off|out|over|under|at|as|is|was|be|been|are|were|has|have|had|do|does|did|will|would|can|could|shall|should|may|might|no|not|non|only|just|than|then|also|very|some|any|all|each|every|both|few|more|most|other|such|into|about|like|between|without|via|per|get|task|adopt|feature|investigation|tests|di|injected|drop)$' \
+        | awk '!seen[$0]++' \
+        | head -n4 \
+        | string join '-')
 
     if test -z "$branch_name"
-        echo "Errore: impossibile generare il nome branch"
-        return 1
+        set -l fallback (string replace -r -a '([a-z])([A-Z])' '$1-$2' -- "$issue_title" | string replace -r -a '[_/]' '-' | string lower | string replace -r -a '[^a-z0-9\s-]' '' | string trim | string replace -r -a '\s+' '-' | string replace -r -a -- '-+' '-' | string trim --chars='-')
+        set branch_name (string sub -l50 -- "$fallback" | string trim --chars='-')
     end
 
     set -l clone_name "verea-$branch_name"
     set -l clone_dir "$HOME/Developer/askverea/$clone_name"
 
-    echo "Branch: $clone_name"
     git clone https://github.com/askverea/verea.git $clone_dir
     or return 1
 
     cd $clone_dir
     mise run setup
     or return 1
-
-    claude
 end

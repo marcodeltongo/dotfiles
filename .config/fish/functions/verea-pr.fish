@@ -32,6 +32,4 @@ function verea-pr
 
     mise run setup
     or return 1
-
-    claude
 end

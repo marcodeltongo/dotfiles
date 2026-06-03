@@ -15,6 +15,9 @@ set -gx CACHE $HOME/.cache
 set -gx EDITOR hx
 set -gx VISUAL gram --wait
 
+# uv
+set -gx UV_LOCK_TIMEOUT 10
+
 # Disable telemetry
 set -gx DO_NOT_TRACK 1
 set -gx DOTNET_CLI_TELEMETRY_OPTOUT 1

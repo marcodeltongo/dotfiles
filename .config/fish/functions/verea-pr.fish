@@ -46,7 +46,7 @@ Branch: $pr_branch"
     echo "────────────────────────────────────"
 
     if set -q _flag_oc
-        opencode --prompt "$prompt" "$clone_dir"
+        opencode --agent plan --prompt "$prompt" "$clone_dir"
     end
 
     if set -q _flag_cc

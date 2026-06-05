@@ -1,8 +1,11 @@
 function verea-pr
+    argparse 'oc' 'cc' -- $argv
+    or return
+
     set -l pr_number $argv[1]
 
     if test -z "$pr_number"
-        echo "Usage: verea-pr <pr-number>"
+        echo "Usage: verea-pr [--oc] [--cc] <pr-number>"
         return 1
     end
 
@@ -32,4 +35,21 @@ function verea-pr
 
     mise run setup
     or return 1
+
+    set -l prompt "Review and continue PR #$pr_number — $pr_title
+
+URL: https://github.com/askverea/verea/pull/$pr_number
+Branch: $pr_branch"
+
+    echo "────────────────────────────────────"
+    echo "$prompt"
+    echo "────────────────────────────────────"
+
+    if set -q _flag_oc
+        opencode --prompt "$prompt" "$clone_dir"
+    end
+
+    if set -q _flag_cc
+        claude "$prompt"
+    end
 end

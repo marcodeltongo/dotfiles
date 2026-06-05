@@ -1,8 +1,11 @@
 function verea-issue
+    argparse 'oc' 'cc' -- $argv
+    or return
+
     set -l issue_number $argv[1]
 
     if test -z "$issue_number"
-        echo "Usage: verea-issue <issue-number>"
+        echo "Usage: verea-issue [--oc] [--cc] <issue-number>"
         return 1
     end
 
@@ -43,4 +46,21 @@ function verea-issue
     cd $clone_dir
     mise run setup
     or return 1
+
+    set -l prompt "Implement #$issue_number — $issue_title
+
+URL: https://github.com/askverea/verea/issues/$issue_number
+Branch: $clone_name"
+
+    echo "────────────────────────────────────"
+    echo "$prompt"
+    echo "────────────────────────────────────"
+
+    if set -q _flag_oc
+        opencode --prompt "$prompt" "$clone_dir"
+    end
+
+    if set -q _flag_cc
+        claude "$prompt"
+    end
 end

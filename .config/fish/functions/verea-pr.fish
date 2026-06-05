@@ -22,7 +22,7 @@ function verea-pr
     echo "PR #$pr_number: $pr_title"
     echo "Branch: $pr_branch"
 
-    set -l clone_name "verea-$pr_branch"
+    set -l clone_name "verea-"(string replace -a '/' '-' -- "$pr_branch")
     set -l clone_dir "$HOME/Developer/askverea/$clone_name"
 
     echo "Directory: $clone_name"

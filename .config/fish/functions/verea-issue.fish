@@ -65,6 +65,6 @@ Branch: $branch_name"
     end
 
     if set -q _flag_cc
-        claude "$prompt"
+        claude --agent plan "$prompt"
     end
 end

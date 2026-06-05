@@ -12,7 +12,7 @@ function verea-pr
     set -l pr_info (gh pr view $pr_number --repo askverea/verea --json title,headRefName 2>/dev/null)
 
     if test -z "$pr_info"
-        echo "Errore: PR #$pr_number non trovata"
+        echo "Error: PR #$pr_number not found"
         return 1
     end
 

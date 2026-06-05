@@ -12,7 +12,7 @@ function verea-issue
     set -l issue_title (gh issue view $issue_number --repo askverea/verea --json title --jq '.title' 2>/dev/null)
 
     if test -z "$issue_title"
-        echo "Errore: issue #$issue_number non trovato"
+        echo "Error: issue #$issue_number not found"
         return 1
     end
 

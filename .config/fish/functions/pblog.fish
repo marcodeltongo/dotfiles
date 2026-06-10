@@ -4,7 +4,7 @@ function pblog
         return 1
     end
 
-    set -l command $argv[1]
+    set -l command (string join ' ' $argv)
     set -l hash (echo "$command" | md5 -q)
 
     eval "$command" 2>&1 | tee /tmp/$hash.log

@@ -5,12 +5,8 @@ function pblog
     end
 
     set -l command $argv[1]
-    set -l hash
+    set -l hash (echo "$command" | md5 -q)
 
-    # Generate filename-friendly hash from command
-    # Replace special characters with hyphens, make lowercase
-    set hash (echo "$command" | tr '[:upper:]' '[:lower:]' | tr ' /:_' '-' | tr -s '-' | sed 's/^-//;s/-$//')
-
-    # Execute command with output redirection and copy to clipboard
-    eval "$command" 2>&1 | tee /tmp/$hash.log | pbcopy
+    eval "$command" 2>&1 | tee /tmp/$hash.log
+    pbcopy < /tmp/$hash.log
 end

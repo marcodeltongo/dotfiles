@@ -4,9 +4,9 @@ function pblog
         return 1
     end
 
-    set -l command (string join ' ' $argv)
-    set -l hash (echo "$command" | md5 -q)
+    set -l hash (echo $argv | md5 -q)
+    set -l log /tmp/$hash.log
 
-    eval "$command" 2>&1 | tee /tmp/$hash.log
-    pbcopy < /tmp/$hash.log
+    script -q $log $argv
+    col -b < $log | pbcopy
 end

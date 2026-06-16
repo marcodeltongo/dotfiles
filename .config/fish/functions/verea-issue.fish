@@ -65,6 +65,6 @@ Branch: $branch_name"
     end
 
     if set -q _flag_cc
-        claude --agent plan --model opus --effort max "$prompt"
+        claude --permission-mode plan --model opusplan --effort max "$prompt"
     end
 end

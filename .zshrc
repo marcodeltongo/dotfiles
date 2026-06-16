@@ -54,3 +54,7 @@ else
   # Shims for non-interactive sessions (scripts, agents)
   [[ -x "$HOME/.local/bin/mise" ]] && eval "$($HOME/.local/bin/mise activate zsh --shims)"
 fi
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/marco/.local/bin:$PATH"

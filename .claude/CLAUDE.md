@@ -11,6 +11,7 @@ Detect from lockfile, never assume:
 
 | Lockfile | Manager |
 |----------|---------|
+| `aube-lock.yaml` | `aube` |
 | `pnpm-lock.yaml` | `pnpm` |
 | `bun.lock` / `bun.lockb` | `bun` |
 | `package-lock.json` | `npm` |
@@ -97,5 +98,3 @@ For multi-step tasks, state a brief plan upfront:
 2. [Step] → verify: [check]
 ```
 Transform vague tasks into verifiable goals before starting ("fix the bug" → "write a test that reproduces it, then make it pass").
-
-@RTK.md

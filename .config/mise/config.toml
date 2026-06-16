@@ -23,6 +23,6 @@ rust = "latest"
 # GitHub Actions linting
 actionlint = "latest"
 awscli = { version = "2", symlink_bins = "true" }
-hk = "1.46.0"
+hk = "1.48.0"
 pkl = "0.31.1"
 swiftlint = "latest"

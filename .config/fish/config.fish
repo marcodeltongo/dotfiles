@@ -109,3 +109,7 @@ if status is-interactive
 else
     ~/.local/bin/mise activate fish --shims | source
 end
+
+
+# Added by Antigravity CLI installer
+set -gx PATH "/Users/marco/.local/bin" $PATH

@@ -2,10 +2,10 @@ function verea-issue
     argparse 'oc' 'cc' -- $argv
     or return
 
-    set -l issue_number $argv[1]
+    set -l issue_number (string replace -r '^.*/(\d+)$' '$1' -- $argv[1])
 
     if test -z "$issue_number"
-        echo "Usage: verea-issue [--oc] [--cc] <issue-number>"
+        echo "Usage: verea-issue [--oc] [--cc] <issue-number-or-url>"
         return 1
     end
 

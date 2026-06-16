@@ -2,10 +2,10 @@ function verea-pr
     argparse 'oc' 'cc' -- $argv
     or return
 
-    set -l pr_number $argv[1]
+    set -l pr_number (string replace -r '^.*/(\d+)$' '$1' -- $argv[1])
 
     if test -z "$pr_number"
-        echo "Usage: verea-pr [--oc] [--cc] <pr-number>"
+        echo "Usage: verea-pr [--oc] [--cc] <pr-number-or-url>"
         return 1
     end
 

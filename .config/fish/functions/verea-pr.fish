@@ -1,18 +1,21 @@
 function verea-pr
-    argparse 'oc' 'cc' -- $argv
+    argparse 'oc' 'cc' 'cx' 'pi' -- $argv
     or return
 
-    set -l pr_number (string replace -r '^.*/(\d+)$' '$1' -- $argv[1])
-
-    if test -z "$pr_number"
-        echo "Usage: verea-pr [--oc] [--cc] <pr-number-or-url>"
+    if test -z "$argv[1]"
+        echo "Usage: verea-pr [--oc|--cc|--cx|--pi] <pr-number-or-url>"
         return 1
     end
 
-    set -l pr_info (gh pr view $pr_number --repo askverea/verea --json title,headRefName 2>/dev/null)
+    set -l pr_number (string match -r '\d+' -- $argv[1] | tail -n1)
+    if test -z "$pr_number"
+        echo "Error: cannot parse PR number from \"$argv[1]\""
+        return 1
+    end
 
-    if test -z "$pr_info"
-        echo "Error: PR #$pr_number not found"
+    set -l pr_info (gh pr view $pr_number --repo askverea/verea --json title,headRefName)
+    if test $status -ne 0
+        echo "Error: PR #$pr_number not found (gh failed)"
         return 1
     end
 
@@ -22,18 +25,12 @@ function verea-pr
     echo "PR #$pr_number: $pr_title"
     echo "Branch: $pr_branch"
 
-    set -l clone_name "verea-"(string replace -a '/' '-' -- "$pr_branch")
+    # Sanitize branch into a safe directory name (not just '/').
+    set -l clone_name "verea-"(string replace -r -a '[^a-z0-9._-]' '-' -- (string lower "$pr_branch") | string replace -r -a -- '-+' '-' | string trim --chars='-')
     set -l clone_dir "$HOME/Developer/askverea/$clone_name"
 
     echo "Directory: $clone_name"
-    git clone https://github.com/askverea/verea.git $clone_dir
-    or return 1
-
-    cd $clone_dir
-    git checkout $pr_branch
-    or return 1
-
-    mise run setup
+    _wt_prepare https://github.com/askverea/verea.git "$clone_dir" "$pr_branch" 0
     or return 1
 
     set -l prompt "Review and continue PR #$pr_number — $pr_title
@@ -45,11 +42,12 @@ Branch: $pr_branch"
     echo "$prompt"
     echo "────────────────────────────────────"
 
-    if set -q _flag_oc
-        opencode --agent plan --prompt "$prompt" "$clone_dir"
+    set -l agent
+    if set -q _flag_oc; set agent oc
+    else if set -q _flag_cc; set agent cc
+    else if set -q _flag_cx; set agent cx
+    else if set -q _flag_pi; set agent pi
     end
 
-    if set -q _flag_cc
-        claude --permission-mode plan --model opusplan --effort max "$prompt"
-    end
+    _wt_launch "$agent" "$prompt" "$clone_dir"
 end

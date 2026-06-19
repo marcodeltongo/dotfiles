@@ -136,7 +136,8 @@
   },
   "model": "opusplan",
   "hooks": {
-    "PreToolUse": []
+    "PreToolUse": [],
+    "SessionEnd": []
   },
   "worktree": {
     "symlinkDirectories": [
@@ -183,5 +184,6 @@
   "fileCheckpointingEnabled": true,
   "remoteControlAtStartup": true,
   "agentPushNotifEnabled": true,
-  "voiceEnabled": true
+  "voiceEnabled": true,
+  "skipWorkflowUsageWarning": true
 }

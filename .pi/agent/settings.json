@@ -1,0 +1,15 @@
+{
+  "lastChangelogVersion": "0.79.8",
+  "theme": "everforest-dark",
+  "defaultProvider": "opencode-go",
+  "defaultModel": "glm-5.2",
+  "packages": [
+    "npm:@smoose/pi-themes",
+    "npm:pi-zentui",
+    "npm:pi-opencode-go-cache"
+  ],
+  "steeringMode": "all",
+  "followUpMode": "all",
+  "treeFilterMode": "default",
+  "defaultThinkingLevel": "high"
+}

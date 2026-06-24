@@ -97,8 +97,8 @@ if status is-interactive
     # Tools
     fzf --fish | source
     zoxide init fish | source
+    peekaboo completions fish | source
     ~/.local/bin/mise activate fish | source
-    wt config shell init fish | source
     fish_add_path $HOME/.opencode/bin
     starship init fish | source
 

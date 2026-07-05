@@ -31,6 +31,9 @@ theme = Ayu Mirage
 keybind = shift+enter=text:\x1b\r
 
 # --- Typography ---
+font-family = Maple Mono NF
+font-family-italic = Maple Mono NF Italic
+font-family-bold-italic = Maple Mono NF Bold Italic
 font-size = 14
 font-thicken = true
 adjust-cell-height = 2

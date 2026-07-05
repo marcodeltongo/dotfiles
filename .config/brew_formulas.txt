@@ -1,6 +1,6 @@
 bat
+charmbracelet/tap/crush
 cmake
-crit
 eva
 eza
 fd
@@ -12,7 +12,6 @@ git-delta
 git-filter-repo
 git-lfs
 glow
-grdl/tap/git-get
 helix
 homebrew-ffmpeg/ffmpeg/ffmpeg
 jq
@@ -22,12 +21,8 @@ macchina
 modem-dev/tap/hunk
 mole
 pandoc
-pkgconf
-ripgrep
-rtk
 starship
-swiftlint
-tldr
+steipete/tap/peekaboo
 topgrade
 tz
 worktrunk

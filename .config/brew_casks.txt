@@ -1,5 +1,6 @@
 apparency
 autoraiseapp
+codex
 codexbar
 font-fira-code
 font-fira-code-nerd-font
@@ -10,11 +11,15 @@ font-maple-mono
 font-maple-mono-nf
 font-maple-mono-normal
 font-maple-mono-normal-nf
+font-victor-mono
+font-victor-mono-nerd-font
 gpg-suite
 gram
 imageoptim
 keyclu
 linearmouse
+mos
+obs
 pearcleaner
 stats
 suspicious-package

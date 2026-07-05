@@ -37,6 +37,9 @@ fish_add_path $HOME/.lmstudio/bin
 # Bun
 fish_add_path /Users/marco/.bun/bin
 
+# Add local bin folder
+set -gx PATH "/Users/marco/.local/bin" $PATH
+
 # ========================================
 # Interactive settings
 # ========================================
@@ -94,6 +97,8 @@ if status is-interactive
         echo "Configuration reloaded."
     end
 
+
+
     # Tools
     fzf --fish | source
     zoxide init fish | source
@@ -109,7 +114,3 @@ if status is-interactive
 else
     ~/.local/bin/mise activate fish --shims | source
 end
-
-
-# Added by Antigravity CLI installer
-set -gx PATH "/Users/marco/.local/bin" $PATH

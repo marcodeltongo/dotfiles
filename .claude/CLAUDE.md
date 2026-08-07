@@ -73,6 +73,10 @@ dotfiles push
   answering questions can stay in the main checkout. `claude -w <name>` starts one from the shell.
   Why: a shared checkout means the working tree, index, stash, and `.git/config` are shared with any
   concurrent session, so a branch can inherit someone else's HEAD and a stash can displace their work.
+- Base every worktree on an up-to-date `origin/main`, never on local HEAD: `git fetch origin main` first.
+  `EnterWorktree` branches from `origin/<default>` because `worktree.baseRef` defaults to `fresh`, but that
+  ref is only as current as the last fetch, and a `head` value would silently undo it. Verify after creating
+  one with `git merge-base --is-ancestor HEAD origin/main`.
 
 ## Behavior
 

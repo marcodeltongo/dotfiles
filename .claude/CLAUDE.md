@@ -68,7 +68,11 @@ dotfiles push
 - Never use `--no-verify` (GPG signing always active)
 - Feature branches: `feature/<name>` or `bugfix/<name>` off `main`
 - Finish features with squash-merge into `main`, then delete branch
-- Prefer worktrees for parallel/isolated work: `claude -w <name>` or ask me to start one
+- Branch-worthy work (anything that will commit, branch, or open a PR) starts in a dedicated worktree:
+  call the `EnterWorktree` tool at the start of the task, without asking. Read-only exploration and
+  answering questions can stay in the main checkout. `claude -w <name>` starts one from the shell.
+  Why: a shared checkout means the working tree, index, stash, and `.git/config` are shared with any
+  concurrent session, so a branch can inherit someone else's HEAD and a stash can displace their work.
 
 ## Behavior
 

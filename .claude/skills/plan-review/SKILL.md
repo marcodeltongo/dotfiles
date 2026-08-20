@@ -157,7 +157,11 @@ Rewrite the plan at the correct altitude, preserving what it got right:
 - **Sequencing (test-first)** — smallest useful version first; for an epic, the ordering spans children
   (which ships first, what it unblocks).
   Each step that changes application behaviour names its test *before* the implementation: the test that
-  fails today and passes when the step is done, at the level the repo's testing topology assigns.
+  fails today and passes when the step is done, at the level the repo's testing topology assigns, and at
+  a named **seam** — the public interface where the behaviour is observed (an exported function, an HTTP
+  route, a CLI); a test aimed at internals is implementation-coupled and dies on the next refactor.
+  Test-first is per step, not up-front in bulk: a plan that writes all the tests before any
+  implementation verifies imagined behaviour.
   The step's done-condition is that test going green — and the test must be able to fail for the right
   reason (not a tautology; discriminating; hermetic; confirmed by reverting the code under test).
   Bugfix-shaped steps start from the test that reproduces the defect.
@@ -166,6 +170,11 @@ Rewrite the plan at the correct altitude, preserving what it got right:
   (a feature flag, where the repo has a flag system) and the rollback trigger for risky user-facing
   change.
 - **Open questions** — product/judgment calls that belong to a human, not invented requirements.
+  Present them as a numbered **frontier round**: only questions whose prerequisites are already settled
+  (one whose answer depends on another open question waits for the next round), each with a one-line
+  recommended answer.
+  Facts are never questions — anything answerable from the repo or the web is Phase 1 research; only
+  decisions go to the human.
 
 ## Output
 

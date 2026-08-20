@@ -141,7 +141,11 @@ so the handoff to it is frictionless:
 - **Sequencing (test-first)** — smallest useful version first, and for an epic the ordering spans
   children.
   Each step that changes application behaviour names its test *before* the implementation: the test that
-  fails today and passes when the step is done, at the level the repo's testing topology assigns.
+  fails today and passes when the step is done, at the level the repo's testing topology assigns, and at
+  a named **seam** — the public interface where the behaviour is observed (an exported function, an HTTP
+  route, a CLI); a test aimed at internals is implementation-coupled and dies on the next refactor.
+  Test-first is per step, not up-front in bulk: a plan that writes all the tests before any
+  implementation verifies imagined behaviour.
   The test must be able to fail for the right reason (not a tautology; discriminating; hermetic;
   confirmed by reverting the code under test).
   Bugfix-shaped steps start from the test that reproduces the defect.
@@ -150,6 +154,11 @@ so the handoff to it is frictionless:
   (a feature flag, where the repo has a flag system) and the rollback trigger when the change is
   user-facing.
 - **Open questions** — product/judgement calls that belong to a human.
+  Present them as a numbered **frontier round**: only questions whose prerequisites are already settled
+  (one whose answer depends on another open question waits for the next round), each with a one-line
+  recommended answer.
+  Facts are never questions — anything answerable from the repo or the web is Phase 1 research; only
+  decisions go to the human.
 
 ## Output
 

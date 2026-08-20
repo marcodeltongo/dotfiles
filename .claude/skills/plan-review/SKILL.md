@@ -84,6 +84,15 @@ See `references/research-playbook.md`.
    tag every best-practice claim `[training-data, unverified]`, and name the decisions most likely to
    have shifted.
 
+**Same-session isolation.**
+When this session authored the artifact under review — a v1 from `plan-well`, or a plan-mode plan it
+just wrote — do not run Phases 2 and 3 inline: an author reviewing its own text inherits its own
+assumptions.
+Delegate both phases to a fresh subagent whose prompt contains only the frozen artifact, the Phase 1
+research summary, and the reference files — never the generation transcript.
+The parent session verifies the returned findings, assembles the output, and writes the v2.
+An artifact authored elsewhere (a human, another session) may be reviewed inline.
+
 ## Phase 2 — Diagnose altitude
 
 Classify each section with the fog and tunnel tests in `references/review-rubric.md`.

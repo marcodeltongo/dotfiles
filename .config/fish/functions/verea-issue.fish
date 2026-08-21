@@ -27,7 +27,7 @@ function verea-issue
     set -l clone_dir "$HOME/Developer/askverea/$clone_name"
 
     echo "Directory: $clone_name"
-    _wt_prepare https://github.com/askverea/verea.git "$clone_dir" "$branch_name" 1
+    _wt_prepare git@github.com:askverea/verea.git "$clone_dir" "$branch_name" 1
     or return 1
 
     set -l prompt "Implement #$issue_number — $issue_title

@@ -30,7 +30,7 @@ function verea-pr
     set -l clone_dir "$HOME/Developer/askverea/$clone_name"
 
     echo "Directory: $clone_name"
-    _wt_prepare https://github.com/askverea/verea.git "$clone_dir" "$pr_branch" 0
+    _wt_prepare git@github.com:askverea/verea.git "$clone_dir" "$pr_branch" 0
     or return 1
 
     set -l prompt "Review and continue PR #$pr_number — $pr_title

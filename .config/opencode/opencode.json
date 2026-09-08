@@ -39,5 +39,6 @@
       "mise run *": "allow",
       "rtk mise run *": "allow"
     }
-  }
+  },
+  "shell": "fish"
 }

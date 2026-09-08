@@ -1,16 +1,15 @@
 {
-  "lastChangelogVersion": "0.80.3",
-  "theme": "everforest-dark",
+  "lastChangelogVersion": "0.85.1",
   "defaultProvider": "opencode-go",
   "defaultModel": "deepseek-v4-flash",
   "packages": [
-    "npm:@smoose/pi-themes",
-    "npm:pi-zentui",
-    "npm:pi-opencode-go-cache",
-    "npm:pi-chrome@latest"
+    "npm:@zhcsyncer/pi-glance"
   ],
   "steeringMode": "all",
   "followUpMode": "all",
   "treeFilterMode": "default",
-  "defaultThinkingLevel": "xhigh"
+  "defaultThinkingLevel": "max",
+  "collapseChangelog": true,
+  "tuiMode": "fullscreen",
+  "theme": "dark"
 }

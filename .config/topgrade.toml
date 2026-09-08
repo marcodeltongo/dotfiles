@@ -2,7 +2,7 @@
 # paths = ["/etc/topgrade.toml"]
 
 [misc]
-disable = ["system", "containers", "yarn", "pip3", "skills", "claude_code", "mas"]
+disable = ["system", "containers", "yarn", "pip3", "skills", "claude_code", "mas", "cursor", "cursor_agent", "opencode"]
 
 display_time = true
 ask_retry = false
@@ -20,9 +20,10 @@ notify_end = "on_failure"
 
 [post_commands]
 "Docker Prune" = "docker system prune -f 2>&1 | tail -1"
+"UV MCP Cache" = "~/.local/bin/clean-uv-mcp"
 
 [commands]
-# "Custom" = "some command"
+"OpenCode" = "opencode upgrade 2>/dev/null"
 
 [python]
 # enable_pip_review = true
@@ -45,6 +46,7 @@ repos = ["~/Developer/*/*/"]
 pull_predefined = false
 # arguments = "--rebase --autostash"
 fetch_only = true
+fallback_to_fetch_default = true
 
 [npm]
 # use_sudo = true

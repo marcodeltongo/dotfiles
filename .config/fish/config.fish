@@ -1,3 +1,7 @@
+# The following lines were added by Docker Desktop to add commands to your PATH.
+export PATH="$PATH:/Users/marco/.docker/bin"
+# End of Docker Desktop section.
+
 # ==========================================================
 # Fish shell global settings • https://fishshell.com
 # ==========================================================

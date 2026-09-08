@@ -1,0 +1,8 @@
+#!/bin/sh
+SIZE=$(du -sh ~/.cache/uv-mcp/ 2>/dev/null | awk '{print $1}')
+rm -rf ~/.cache/uv-mcp/
+if [ -n "$SIZE" ]; then
+  echo "Total reclaimed space: $SIZE"
+else
+  echo "Nothing to clean"
+fi

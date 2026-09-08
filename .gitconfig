@@ -337,5 +337,3 @@ sync-fork = "!git fetch upstream && git merge upstream/main"
 # https://github.com/grdl/git-get
 # ========================================
 [gitget]
-root = ~/Developer/
-skip-host = true

@@ -55,7 +55,6 @@
       "Bash(sed *)",
       "Bash(echo *)",
       "Bash(date*)",
-      "Bash(env)",
       "Bash(printenv*)",
       "Bash(mise current*)",
       "Bash(mise list*)",
@@ -100,7 +99,8 @@
       "Read(**/id_ed25519)",
       "Read(**/id_ecdsa)",
       "Bash(rm -rf*)",
-      "Bash(git push --force*)",
+      "Bash(git push --force)",
+      "Bash(git push --force *)",
       "Bash(git push -f *)",
       "Bash(sudo *)",
       "Bash(chmod*)",
@@ -111,7 +111,19 @@
   },
   "model": "opusplan",
   "hooks": {
-    "PreToolUse": [],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/python3 ~/.claude/hooks/gh-foreign-repo-guard.py",
+            "timeout": 10,
+            "statusMessage": "Checking GitHub write target..."
+          }
+        ]
+      }
+    ],
     "SessionEnd": []
   },
   "worktree": {
@@ -125,27 +137,14 @@
     "refreshInterval": 5
   },
   "enabledPlugins": {
-    "terraform-code-generation@hashicorp": true,
-    "terrashark@terrashark": true,
-    "deploy-on-aws@claude-plugins-official": true
+    "deploy-on-aws@claude-plugins-official": true,
+    "terraform@hashicorp": true
   },
   "extraKnownMarketplaces": {
-    "crit": {
-      "source": {
-        "source": "github",
-        "repo": "tomasz-tomczyk/crit"
-      }
-    },
     "hashicorp": {
       "source": {
         "source": "github",
         "repo": "hashicorp/agent-skills"
-      }
-    },
-    "terrashark": {
-      "source": {
-        "source": "github",
-        "repo": "LukasNiessen/terrashark"
       }
     }
   },
@@ -160,5 +159,45 @@
   "fileCheckpointingEnabled": true,
   "remoteControlAtStartup": true,
   "agentPushNotifEnabled": true,
-  "voiceEnabled": true
+  "autoMode": {
+    "allow": [
+      "$defaults",
+      "Bash(mise run:*) in the askverea/verea repo",
+      "Bash(verea-issue:*) for askverea/verea issue tracking",
+      "Bash(fnox exec:*) in the askverea/verea repo (runs project commands with secrets injected; no secret values printed)"
+    ],
+    "soft_deny": [
+      "$defaults",
+      "Bash(fnox set:*) and Bash(fnox rm:*) \u2014 secret-store writes for Vera AI Ltd",
+      "Bash(mise run:*) tasks targeting the live/try environments of askverea/verea"
+    ],
+    "environment": [
+      "### Org-wide",
+      "**Organization**: Vera AI Ltd (product: Verea, handle: askverea) \u2014 GitHub org `askverea`",
+      "**Cloud provider(s)**: AWS (Bedrock credentials in .env.example) and Cloudflare (infra/terraform/global/cloudflare.tf); container images from Docker Hub / GHCR per CI secret names",
+      "**Repository visibility**: private (gh: askverea/verea is private)",
+      "**Internal sharing / snippet hosting**: None configured \u2014 treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: fnox (`fnox set <NAME>`, `fnox exec --`) for local/prod secrets; GitHub Actions secrets in CI; `.env` files are gitignored and never committed",
+      "**Default / protected branches**: default branch `main`; ruleset `verea-main-protection` active; protected branch `main`",
+      "**CI/CD deploy targets**: GitHub Actions workflows in .github/workflows; Terraform in infra/terraform/global (Cloudflare + monitoring); environment names used by this repo: dev, test, next, try, live",
+      "**Network posture**: local dev over localhost (Postgres 5432, Opera 3000, Vista 5173, Mente 7777); non-dev traffic via public askverea.com / verea.ai hosts",
+      "**Source control**: The trusted repo and its remote(s) only (no additional orgs configured) \u2014 github.com:askverea/verea.git, as scoped by the Trusted repo and Repository visibility entries above",
+      "**Trusted internal domains**: askverea.com (incl. api-next.askverea.com), verea.ai (app.verea.ai, admin.verea.ai)",
+      "**Trusted cloud buckets**: None configured",
+      "**Key internal services**: mente (Python/Agno agent runtime), opera (TypeScript/Hono API and tools gateway), vista (React/Vite dashboard), Postgres (verea, verea_test); third-party integrations: Twilio/WhatsApp, Resend, Nango, LangWatch, HubSpot",
+      "**Internal package registry**: None configured",
+      "**Sensitive data locations & audiences**: tenant commercial data (price lists, discount tables, contracts, CRM exports, customer-identifying documents) must never be committed; apps/mente/tests/fixtures/rag/ is synthetic only; PII paths apps/mente/src/memory_pii.py, apps/mente/src/pii_sanitizer.py; secrets in .env, *.key, infra/ops/populate-secrets.sh, infra/terraform/global/*.tfvars; share only with audiences cleared at the [named+specifics] bar",
+      "**Data retention / declassification**: None configured (repo policy: real pilot/production documents live outside git and are never re-committed)",
+      "**Sensitive remote targets**: any namespace, host, or container whose name carries `prod` or `production` as a whole word or name segment (hyphen/underscore/dot-delimited \u2014 e.g. matches `prod-db`, not `producer`); for this repo also treat the `live` and `try` environments and the api-next.askverea.com / app.verea.ai / admin.verea.ai hosts as sensitive",
+      "**Protected deployment namespaces / environments**: `live` and `try` (plus `next`) as defined by VEREA_ENV in this repo",
+      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment; also infra/terraform/global (Cloudflare DNS, backend state, monitoring)",
+      "### User-specific",
+      "**Primary use of Claude Code**: software development on this monorepo (Python/Agno, TypeScript/Hono, React/Vite)",
+      "**Trusted repo**: /Users/marco/Developer/askverea/verea (worktrees under .claude/worktrees/) with remote github.com:askverea/verea.git \u2014 private, so confidential material may be committed there; secrets and sensitive data (personal & entrusted) are never cleared into any repo by its visibility",
+      "**Org-specific CLIs**: verea-issue; fnox (secrets); mise (tasks/runtimes); wt (worktrees); dotfiles (bare-repo config)",
+      "**Routine under askverea/ prefix**: work stays under ~/Developer/askverea/verea and its git worktrees; mise tasks and fnox exec wrappers are the routine entrypoints"
+    ]
+  },
+  "voiceEnabled": true,
+  "cleanupPeriodDays": 180
 }

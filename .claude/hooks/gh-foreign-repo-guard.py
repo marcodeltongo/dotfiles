@@ -34,6 +34,25 @@ URL_NWO = re.compile(
 )
 API_NWO = re.compile(r"^/?repos/([A-Za-z0-9._-]+)/([A-Za-z0-9._-]+)")
 GQL_OWNER = re.compile(r"owner\s*:\s*[\\\"']*([A-Za-z0-9._-]+)")
+# A mutation addressed by node id names no owner in its text. These pick the
+# ids out so they can be resolved against GitHub rather than guessed at: any
+# `<something>Id: "..."` inside the query, and any `-F id=...` style field.
+# Over-matching is safe in one direction only, which is the direction that
+# matters: a string that is not really a node id fails to resolve and keeps the
+# command denied, so a loose pattern can tighten the guard but never loosen it.
+NODE_ID = re.compile(
+    r"[A-Za-z_]*[Ii]d\s*[:=]\s*\\?[\"']?([A-Za-z0-9_=+/-]{16,})\\?[\"']?"
+)
+NODE_OWNER_QUERY = """query($id:ID!){node(id:$id){__typename
+  ... on Repository{nameWithOwner}
+  ... on Issue{repository{nameWithOwner}}
+  ... on IssueComment{repository{nameWithOwner}}
+  ... on PullRequest{repository{nameWithOwner}}
+  ... on PullRequestReview{repository{nameWithOwner}}
+  ... on PullRequestReviewComment{repository{nameWithOwner}}
+  ... on PullRequestReviewThread{repository{nameWithOwner}}
+  ... on Discussion{repository{nameWithOwner}}
+  ... on DiscussionComment{discussion{repository{nameWithOwner}}}}}"""
 
 FIELD_FLAGS = {"-f", "-F", "--field", "--raw-field", "--input"}
 FIELD_PREFIXES = ("--field=", "--raw-field=", "--input=")
@@ -98,6 +117,60 @@ def local_owner(cwd):
     return match.group(1).lower() if match else None
 
 
+def find_nwo(value):
+    """First nameWithOwner anywhere in a GraphQL node, or None."""
+    if isinstance(value, dict):
+        found = value.get("nameWithOwner")
+        if isinstance(found, str) and "/" in found:
+            return found
+        for nested in value.values():
+            found = find_nwo(nested)
+            if found:
+                return found
+    return None
+
+
+def node_owners(segment):
+    """Owners behind opaque node ids, asked of GitHub rather than inferred.
+
+    Resolving a review thread, or anything else addressed by node id, cannot
+    name its repository in the query text, so treating every such mutation as
+    foreign blocks a legitimate workflow with no way to express itself. The id
+    is resolvable, and the answer comes from GitHub rather than from the caller,
+    so it is evidence and not a hint.
+
+    Returns (owners, unprovable). `unprovable` stays True whenever an id could
+    not be turned into a repository, which keeps an offline machine, a stale id,
+    a node type not listed above and a missing `gh` on the same side of the line
+    as before this function existed: denied.
+    """
+    ids = {m.group(1) for m in NODE_ID.finditer(segment)}
+    if not ids:
+        return set(), True
+    owners, unprovable = set(), False
+    for node_id in sorted(ids):
+        try:
+            result = subprocess.run(
+                ["gh", "api", "graphql",
+                 "-f", "query=" + NODE_OWNER_QUERY, "-F", "id=" + node_id],
+                capture_output=True, text=True, timeout=10,
+            )
+            node = (json.loads(result.stdout).get("data") or {}).get("node") or {}
+        except Exception:
+            unprovable = True
+            continue
+        # Walk for nameWithOwner rather than reading a fixed path: the field sits
+        # at a different depth per node type (a DiscussionComment reaches it
+        # through its discussion), and a shape added later should widen what
+        # resolves rather than silently join the unprovable pile.
+        nwo = find_nwo(node)
+        if nwo and "/" in nwo:
+            owners.add(nwo.split("/", 1)[0].lower())
+        else:
+            unprovable = True
+    return owners, unprovable
+
+
 def positional_owner(tokens):
     """owner/name written as a positional argument.
 
@@ -139,7 +212,13 @@ def target_owners(tokens, segment, cwd):
     # it uses an opaque node id. An unprovable target counts as foreign.
     if "graphql" in tokens and re.search(r"\bmutation\b", segment, re.IGNORECASE):
         in_query = {m.group(1).lower() for m in GQL_OWNER.finditer(segment)}
-        owners |= in_query or {"<unnamed repository id>"}
+        if in_query:
+            owners |= in_query
+        else:
+            resolved, unprovable = node_owners(segment)
+            owners |= resolved
+            if unprovable or not resolved:
+                owners.add("<unnamed repository id>")
 
     if not owners:
         owner = local_owner(cwd)

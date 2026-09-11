@@ -120,6 +120,12 @@
             "command": "/usr/bin/python3 ~/.claude/hooks/gh-foreign-repo-guard.py",
             "timeout": 10,
             "statusMessage": "Checking GitHub write target..."
+          },
+          {
+            "type": "command",
+            "command": "/usr/bin/python3 ~/.claude/hooks/git-core-worktree-guard.py",
+            "timeout": 10,
+            "statusMessage": "Checking git config writes..."
           }
         ]
       }

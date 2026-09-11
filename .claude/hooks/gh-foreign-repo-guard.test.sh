@@ -12,6 +12,10 @@
 # either will see them fail closed, which is the correct behaviour and also
 # indistinguishable from a regression, so run this online.
 GUARD="${GUARD:-$HOME/.claude/hooks/gh-foreign-repo-guard.py}"
+# The interpreter the hook runs under in settings.json, not whichever python3
+# is first on PATH: a suite that passes under a different interpreter proves
+# nothing about the one that actually executes the guard.
+PYTHON="${PYTHON:-/usr/bin/python3}"
 
 # askverea/verea PR #1784, a thread that exists. Ids are stable.
 OURS="PRRT_kwDOQwqeO86hQaDI"
@@ -22,8 +26,8 @@ failures=0
 
 check() {
   local want="$1" name="$2" cmd="$3" payload out got
-  payload="$(python3 -c 'import json,sys; print(json.dumps({"tool_input":{"command":sys.argv[1]},"cwd":"/tmp"}))' "$cmd")"
-  out="$(printf '%s' "$payload" | python3 "$GUARD")"
+  payload="$("$PYTHON" -c 'import json,sys; print(json.dumps({"tool_input":{"command":sys.argv[1]},"cwd":"/tmp"}))' "$cmd")"
+  out="$(printf '%s' "$payload" | "$PYTHON" "$GUARD")"
   case "$out" in
     *'"deny"'*) got=deny ;;
     "") got=allow ;;
